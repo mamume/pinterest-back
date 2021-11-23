@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 django = "*"
 django-debug-toolbar = "*"
+psycopg2 = "*"
 
 [dev-packages]
 autopep8 = "*"
