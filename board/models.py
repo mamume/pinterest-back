@@ -18,9 +18,8 @@ class Board(models.Model):
 
     """
         Other Relations:
-        1. user: many to many (owner) // to be done in user
-        2. section: 1 to many (sections) // to be done in sections
-        3. note: 1 to many (notes) // to be done in note
+        1. section: 1 to many (sections) // to be done in sections
+        2. note: 1 to many (notes) // to be done in note
     """
 
 
