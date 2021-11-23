@@ -9,6 +9,7 @@ django-debug-toolbar = "*"
 psycopg2 = "*"
 python-decouple = "*"
 pillow = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 autopep8 = "*"

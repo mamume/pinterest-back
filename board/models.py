@@ -10,8 +10,8 @@ class Board(models.Model):
     description = models.TextField(default="", null=True)
     cover_img = models.ImageField(upload_to="board_covers")
 
-    pins = models.ManyToManyField('Pin')
-    categories = models.ManyToManyField('Category')
+    # pins = models.ManyToManyField('Pin')
+    # categories = models.ManyToManyField('Category')
 
     """
         Other Relations:
