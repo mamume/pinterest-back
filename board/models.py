@@ -23,6 +23,6 @@ class Board(models.Model):
 
 
 class Collaborator(models.Model):
-    user = models.ManyToManyField("account.User")
+    # user = models.ManyToManyField("account.User")
     is_super = models.BooleanField(default=False)
     can_invite = models.BooleanField(default=False)
