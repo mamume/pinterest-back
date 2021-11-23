@@ -7,11 +7,9 @@ class Board(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     share = models.BooleanField(default=False)
-    description = models.TextField(default="", null=True)
-    cover_img = models.ImageField(upload_to="board_covers")
+    description = models.TextField(null=True)
+    cover_img = models.ImageField(upload_to="board_covers", null=True)
 
-    #pins = models.ManyToManyField('Pin')
-    #categories = models.ManyToManyField('Category')
 
     """
         Other Relations:
