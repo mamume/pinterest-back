@@ -10,6 +10,7 @@ psycopg2 = "*"
 python-decouple = "*"
 pillow = "*"
 django-cors-headers = "*"
+django-countries = "*"
 
 [dev-packages]
 autopep8 = "*"
