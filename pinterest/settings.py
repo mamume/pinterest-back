@@ -36,12 +36,17 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sessions',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
     'corsheaders',
     'board',
+    'account',
+    'rest_framework',
+    'django_extensions',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +96,7 @@ DATABASES = {
         'HOST': 'localhost',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'POST': ''
+        'PORT': '5432'
     }
 }
 
@@ -134,6 +139,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -142,3 +148,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'account.UserProfile'

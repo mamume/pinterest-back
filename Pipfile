@@ -5,9 +5,11 @@ name = "pypi"
 
 [packages]
 django = "*"
-django-rest-framework = "*"
 django-extensions = "*"
 django-debug-toolbar = "*"
+django-countries = "*"
+djangorestframework = "*"
+decouple = "*"
 
 [dev-packages]
 
