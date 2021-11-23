@@ -153,5 +153,5 @@ AUTH_USER_MODEL = 'account.UserProfile'
 
 
 REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING': True
+    'COERCE_DECIMAL_TO_STRING': False
 }
