@@ -9,3 +9,13 @@ class Board(models.Model):
     share = models.BooleanField(default=False)
     description = models.TextField(default="", null=True)
     cover_img = models.ImageField(upload_to="board_covers")
+
+    pins = models.ManyToManyField('Pin')
+    categories = models.ManyToManyField('Category')
+
+    """
+        Other Relations:
+        1. user: many to many (owner) // to be done in user
+        2. section: 1 to many (sections) // to be done in sections
+        3. note: 1 to many (notes) // to be done in note
+    """
