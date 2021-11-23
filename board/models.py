@@ -14,6 +14,7 @@ class Board(models.Model):
     # pins = models.ManyToManyField('Pin')
     # categories = models.ManyToManyField('Category')
     collaborators = models.ManyToManyField('Collaborator')
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     """
         Other Relations:
