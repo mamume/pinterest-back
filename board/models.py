@@ -1,4 +1,5 @@
 from django.db import models
+from account.models import UserProfile
 
 # Create your models here.
 
@@ -12,7 +13,7 @@ class Board(models.Model):
 
     # pins = models.ManyToManyField('Pin')
     # categories = models.ManyToManyField('Category')
-    # collaborators = models.ManyToManyField('Collaborator')
+    collaborators = models.ManyToManyField('Collaborator')
 
     """
         Other Relations:
@@ -23,6 +24,6 @@ class Board(models.Model):
 
 
 class Collaborator(models.Model):
-    # user = models.ManyToManyField("account.User")
+    user = models.ManyToManyField(UserProfile)
     is_super = models.BooleanField(default=False)
     can_invite = models.BooleanField(default=False)
