@@ -12,6 +12,7 @@ class Board(models.Model):
 
     # pins = models.ManyToManyField('Pin')
     # categories = models.ManyToManyField('Category')
+    # collaborators = models.ManyToManyField('Collaborator')
 
     """
         Other Relations:
@@ -19,3 +20,9 @@ class Board(models.Model):
         2. section: 1 to many (sections) // to be done in sections
         3. note: 1 to many (notes) // to be done in note
     """
+
+
+class Collaborator(models.Model):
+    user = models.ManyToManyField("account.User")
+    is_super = models.BooleanField(default=False)
+    can_invite = models.BooleanField(default=False)
