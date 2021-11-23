@@ -5,14 +5,11 @@ name = "pypi"
 
 [packages]
 django = "*"
+django-rest-framework = "*"
+django-extensions = "*"
 django-debug-toolbar = "*"
-psycopg2 = "*"
-python-decouple = "*"
-pillow = "*"
-django-cors-headers = "*"
 
 [dev-packages]
-autopep8 = "*"
 
 [requires]
-python_version = "3.10"
+python_version = "3.9"
