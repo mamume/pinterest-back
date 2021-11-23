@@ -8,6 +8,7 @@ django = "*"
 django-debug-toolbar = "*"
 psycopg2 = "*"
 python-decouple = "*"
+pillow = "*"
 
 [dev-packages]
 autopep8 = "*"
