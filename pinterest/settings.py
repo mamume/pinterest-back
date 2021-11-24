@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_extensions',
     'django_countries',
-    'notification'
+    'notification',
+    'message'
 ]
 
 MIDDLEWARE = [
