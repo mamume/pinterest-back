@@ -2,3 +2,8 @@
 .env
 /pinterest-back-venv/
 /media/
+
+__pycache__/
+*.py[cod]
+Pipfile
+Pipfile.lock
