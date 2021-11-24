@@ -8,6 +8,7 @@ from . import views
 urlpatterns = [
 
     #path('', hello_world),
+    ## Pin URLs
     #Create
     path('create', views.pin_create),
 
@@ -22,6 +23,10 @@ urlpatterns = [
 
     #Delete
     path('delete/<int:pk>/', views.delete_pin),
+
+    ## Note URLS
+    path('<int:pin_id>/pin_notes', views.note_create),
+
 
 
 ] 

@@ -18,6 +18,7 @@ class PinCategory(models.Model):
     def __str__(self):
         return self.name
 
+    
 class Note(models.Model):
     title = models.CharField(max_length=100)
     #checklist -- array of items
@@ -42,10 +43,11 @@ class Pin(models.Model):
     content_src = models.URLField(max_length=200)
     share_type = models.CharField(max_length=15,choices=share_type)
     PinCategory = models.ManyToManyField('PinCategory')
-    PinNotes = models.ManyToManyField('Note')
+    note = models.ManyToManyField('Note')
     PinSections = models.ManyToManyField('Section')
 
     
     def __str__(self):
         return self.title
+
 
