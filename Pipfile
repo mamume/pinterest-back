@@ -13,6 +13,7 @@ django-cors-headers = "*"
 django-countries = "*"
 djangorestframework = "*"
 django-extensions = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 autopep8 = "*"
