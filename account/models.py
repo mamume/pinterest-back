@@ -1,9 +1,11 @@
+from django.contrib.auth import validators
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
-from django.db.models.query_utils import select_related_descend
-from board.models import Board
+from django.apps import apps
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, AbstractUser
 from django.utils import timezone
 from django_countries.fields import CountryField
+from django.contrib.auth.validators import UnicodeUsernameValidator
+
 
 
 # Create your models here.
@@ -13,6 +15,8 @@ class UserProfileManager(BaseUserManager):
     def create_user(self, email, username, password=None):
         if not email:
             raise ValueError('You must enter an email address')
+        GlobalUserModel = apps.get_model(self.model._meta.app_label, self.model._meta.object_name)
+        username = GlobalUserModel.normalize_username(username)
         email = self.normalize_email(email)
         user = self.model(email=email, username=username)
         user.set_password(password)
@@ -29,13 +33,15 @@ class UserProfileManager(BaseUserManager):
 
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     
-    email = models.CharField(max_length=255, primary_key=True)
-    username = models.CharField(max_length=255)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    username_validator = UnicodeUsernameValidator()
+
+    email = models.EmailField(max_length=255, unique=True)
+    username = models.CharField(max_length=255, unique=True, validators=[username_validator])
+    first_name = models.CharField(max_length=255, blank=True)
+    last_name = models.CharField(max_length=255, blank=True)
     age = models.IntegerField(null=True)
-    bio = models.TextField()
-    join_date = models.DateField(default=timezone.now)
+    bio = models.TextField(blank=True)
+    join_date = models.DateTimeField(default=timezone.now)
     gender = models.CharField(max_length=255)
     country = CountryField()
     profile_pic = models.ImageField(upload_to='account/profile_pics', null=True, blank=True)

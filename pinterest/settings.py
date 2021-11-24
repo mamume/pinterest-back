@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'board',
-    'account',
+    'account.apps.AccountConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_extensions',
     'django_countries',
 ]
@@ -96,7 +97,7 @@ DATABASES = {
         'HOST': 'localhost',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'PORT': '5432'
+        'PORT': 5432
     }
 }
 
@@ -150,3 +151,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'account.UserProfile'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    ['rest_framework.authentication.TokenAuthentication'],
+}
