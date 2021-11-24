@@ -25,3 +25,15 @@ class Collaborator(models.Model):
     user = models.ManyToManyField(UserProfile)
     is_super = models.BooleanField(default=False)
     can_invite = models.BooleanField(default=False)
+
+
+class Note(models.Model):
+    title = models.CharField(max_length=255)
+    text = models.TextField(null=True)
+    ckeck_list = models.JSONField(null=True)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+
+
+class Section(models.Model):
+    name = models.CharField(max_length=255)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
