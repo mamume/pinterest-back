@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'board',
-    'account',
     'account.apps.AccountConfig',
     'rest_framework.authtoken',
     'django_extensions',
