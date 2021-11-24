@@ -87,3 +87,15 @@ class UserBlocked(models.Model):
 
     def __str__(self):
         return f"{self.user_id} blocked {self.blocking_user_id}"
+
+class Message(models.Model):
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    sender = models.ManyToManyField('UserProfile', related_name="sender")
+    reciever = models.ManyToManyField('UserProfile', related_name="reciever")
+
+class Notification(models.Model):
+    text = models.TextField()
+    created_at = models.DateField(auto_now_add=True)
+    user = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
