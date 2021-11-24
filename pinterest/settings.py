@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_extensions',
     'django_countries',
-    'user_profile'
+    'user_profile',
     'notification',
     'message'
 ]

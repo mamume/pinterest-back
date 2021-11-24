@@ -6,5 +6,5 @@ class Message(models.Model):
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    sender = models.ManyToMany(UserProfile, on_delete=models.SET_NULL)
-    reciever = models.ManyToMany(UserProfile, on_delete=models.SET_NULL)
+    sender = models.ManyToManyField(UserProfile, related_name="sender")
+    reciever = models.ManyToManyField(UserProfile, related_name="reciever")

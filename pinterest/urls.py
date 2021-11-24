@@ -24,7 +24,7 @@ urlpatterns = [
     path('__debug__/', include(debug_toolbar.urls)),
     # path('board/', include('board.urls')),
     path('account/', include('account.api.v1.urls')),
-    path('profile/', include('profile.urls')),
+    path('profile/', include('user_profile.urls')),
 ]
 
 if settings.DEBUG:

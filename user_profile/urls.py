@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
 
-url_patterns = [
+urlpatterns = [
     path("<int:pk>/", views.profile_detail, name="profile-detail")
 ]
