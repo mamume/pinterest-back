@@ -8,16 +8,27 @@ User = get_user_model()
 class FollowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollowing
-        fields = ['id', 'following', 'start_follow']
+        fields = ['id', 'following_user_id', 'start_follow']
 
 class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserFollowing
-        fields = ['id', 'follower', 'start_follow']
+        fields = ['id', 'user_id', 'start_follow']
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = ['id', 'text', 'created_at']
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
     follower = serializers.SerializerMethodField()
+    notification = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -34,7 +45,8 @@ class UserSerializer(serializers.ModelSerializer):
             'bio', 
             'profile_pic',
             'following',
-            'follower'
+            'follower',
+            'notification',
         ]
         extra_kwargs = {'password':{'write_only':True}}
     
@@ -43,6 +55,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_follower(self, obj):
         return FollowerSerializer(obj.follower.all(), many=True).data
+
+    def get_notification(self, obj):
+        return NotificationSerializer(obj.notification.all(), many=True).data
 
     def save(self, **kwargs):
         user = User(
