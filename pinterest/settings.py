@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_countries',
     'user_profile'
+    'notification',
+    'message'
 ]
 
 MIDDLEWARE = [
