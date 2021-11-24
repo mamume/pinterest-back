@@ -1,11 +1,12 @@
 from rest_framework.response import Response
 from django.http import request
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from .serializers import UserSerializer
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 User = get_user_model()
 

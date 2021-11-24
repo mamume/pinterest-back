@@ -2,6 +2,7 @@ from django.contrib.auth import validators
 from django.db import models
 from django.apps import apps
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, AbstractUser
+from django.db.models import constraints
 from django.utils import timezone
 from django_countries.fields import CountryField
 from django.contrib.auth.validators import UnicodeUsernameValidator
@@ -45,6 +46,8 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=255)
     country = CountryField()
     profile_pic = models.ImageField(upload_to='account/profile_pics', null=True, blank=True)
+    blocked = models.ManyToManyField('self', null=True, blank=True)
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -61,3 +64,26 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+class UserFollowing(models.Model):
+    user_id = models.ForeignKey('UserProfile', related_name='following', on_delete=models.CASCADE)
+    following_user_id = models.ForeignKey('UserProfile', related_name='follower', on_delete=models.CASCADE)
+    start_follow = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        constraints = models.UniqueConstraint(fields=['user_id', 'following_user_id'], name='unique_followers')
+        ordering = ['-start_follow']
+    
+    def __str__(self):
+        return f"{self.user_id} start following {self.following_user_id}"
+
+class UserBlocked(models.Model):
+    user_id = models.ForeignKey('UserProfile', related_name='blocking', on_delete=models.CASCADE)
+    blocking_user_id = models.ForeignKey('UserProfile', related_name='blocker', on_delete=models.CASCADE)
+    blocked = models.DateTimeField(default=timezone.now)
+    class Meta:
+        constraints = models.UniqueConstraint(fields=['user_id', 'blocking_user_id'], name='uinique_blockers')
+        ordering = ['-blocked']
+
+    def __str__(self):
+        return f"{self.user_id} blocked {self.blocking_user_id}"
