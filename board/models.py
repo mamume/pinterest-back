@@ -9,7 +9,7 @@ class Board(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     share = models.BooleanField(default=False)
     description = models.TextField(null=True)
-    cover_img = models.ImageField(upload_to="board_covers", null=True)
+    cover_img = models.ImageField(upload_to="board/covers", null=True)
 
     # pins = models.ManyToManyField('Pin')
     # categories = models.ManyToManyField('Category')
