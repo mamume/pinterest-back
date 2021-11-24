@@ -1,7 +1,7 @@
 .vscode
 .env
 /pinterest-back-venv/
-/media/
+media/
 
 __pycache__/
 *.py[cod]
