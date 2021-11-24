@@ -11,6 +11,8 @@ python-decouple = "*"
 pillow = "*"
 django-cors-headers = "*"
 django-countries = "*"
+djangorestframework = "*"
+django-extensions = "*"
 
 [dev-packages]
 autopep8 = "*"

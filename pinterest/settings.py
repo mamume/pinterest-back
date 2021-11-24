@@ -42,11 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'debug_toolbar',
     'corsheaders',
     'board',
     'account.apps.AccountConfig',
-    'rest_framework',
     'rest_framework.authtoken',
     'django_extensions',
     'django_countries',
@@ -55,6 +55,9 @@ INSTALLED_APPS = [
 
 
 
+    'user_profile',
+    'notification',
+    'message'
 ]
 
 MIDDLEWARE = [
@@ -160,7 +163,9 @@ MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'account.UserProfile'
 
 REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES':
+<<<<<<< HEAD
     [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication'
@@ -198,3 +203,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+=======
+    ['rest_framework.authentication.TokenAuthentication'],
+}
+>>>>>>> main
