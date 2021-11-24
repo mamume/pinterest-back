@@ -10,7 +10,7 @@ class Board(models.Model):
     cover_img = models.ImageField(upload_to="board/covers", null=True)
 
     # pins = models.ManyToManyField('Pin')
-    collaborators = models.ManyToManyField('Collaborator')
+    collaborators = models.ManyToManyField('Collaborator', null=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
 
