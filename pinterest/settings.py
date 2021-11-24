@@ -52,12 +52,8 @@ INSTALLED_APPS = [
     'django_countries',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-
-
-
     'user_profile',
-    'notification',
-    'message'
+
 ]
 
 MIDDLEWARE = [
@@ -165,7 +161,6 @@ AUTH_USER_MODEL = 'account.UserProfile'
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES':
-<<<<<<< HEAD
     [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication'
@@ -203,7 +198,3 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-=======
-    ['rest_framework.authentication.TokenAuthentication'],
-}
->>>>>>> main
