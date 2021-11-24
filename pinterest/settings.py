@@ -44,13 +44,9 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'corsheaders',
     'board',
-    << << << < HEAD
     'account',
-    == == == =
     'account.apps.AccountConfig',
-    'rest_framework',
     'rest_framework.authtoken',
-    >>>>>> > main
     'django_extensions',
     'django_countries',
 ]
