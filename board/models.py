@@ -6,8 +6,9 @@ class Board(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     share = models.BooleanField(default=False)
-    description = models.TextField(null=True)
-    cover_img = models.ImageField(upload_to="board/covers", null=True)
+    description = models.TextField(null=True, blank=True)
+    cover_img = models.ImageField(
+        upload_to="board/covers", null=True, blank=True)
 
     # pins = models.ManyToManyField('Pin')
     collaborators = models.ManyToManyField('Collaborator', blank=True)
@@ -18,14 +19,14 @@ class Board(models.Model):
 
 
 class Collaborator(models.Model):
-    user = models.ManyToManyField(UserProfile)
+    # boards = models.ManyToManyField(Board)
+    user = models.OneToOneField(
+        UserProfile, primary_key=True, on_delete=models.CASCADE)
     is_super = models.BooleanField(default=False)
     can_invite = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        usernames = ", ".join(str(user.username) for user in self.user.all())
-
-        return usernames
+        return self.user.username
 
 
 class Note(models.Model):

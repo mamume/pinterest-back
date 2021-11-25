@@ -1,6 +1,10 @@
-from django.urls import path
 from . import views
+from rest_framework.routers import SimpleRouter
 
-urlpatterns = [
-    path('<int:pk>', views.BoardDetail.as_view(), name="board-detail")
-]
+
+router = SimpleRouter()
+router.register('list', views.BoardViewSet)
+router.register('collaborator', views.CollaboratorViewSet)
+
+
+urlpatterns = router.urls
