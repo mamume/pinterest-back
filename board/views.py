@@ -4,8 +4,16 @@ from .models import Board, Collaborator, Note, Section
 
 
 class BoardViewSet(ModelViewSet):
-    queryset = Board.objects.all()
+    # queryset = Board.objects.all()
     serializer_class = BoardSerializer
+
+    def get_queryset(self):
+        queryset = Board.objects.all()
+        owner_id = self.request.query_params.get('owner_id')
+        if owner_id:
+            queryset = queryset.filter(owner_id=owner_id)
+
+        return queryset
 
 
 class CollaboratorViewSet(ModelViewSet):
