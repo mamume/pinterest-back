@@ -23,6 +23,3 @@ class BoardSerializer(serializers.ModelSerializer):
         fields = ["id", "collaborators", "title", "share",
                   "description", "cover_img", "owner"]
         read_only_fields = ('cover_img',)
-
-    collaborators = serializers.PrimaryKeyRelatedField(
-        queryset=Collaborator.objects.all(), many=True)
