@@ -13,6 +13,6 @@ class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
         fields = ['title', 'share', 'description',
-                  'collaborators', 'cover_image']
+                  'collaborators', 'cover_img']
 
     collaborators = CollaboratorSerializer()
