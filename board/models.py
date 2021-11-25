@@ -10,14 +10,22 @@ class Board(models.Model):
     cover_img = models.ImageField(upload_to="board/covers", null=True)
 
     # pins = models.ManyToManyField('Pin')
-    collaborators = models.ManyToManyField('Collaborator')
+    collaborators = models.ManyToManyField('Collaborator', blank=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Collaborator(models.Model):
     user = models.ManyToManyField(UserProfile)
     is_super = models.BooleanField(default=False)
     can_invite = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        usernames = ", ".join(str(user.username) for user in self.user.all())
+
+        return usernames
 
 
 class Note(models.Model):
