@@ -7,11 +7,8 @@ class NoteSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def create(self, validated_data):
-        
         note = Note.objects.create(**validated_data)
         relation = PinNote.objects.create(pin= Pin.objects.get(pk = self.context.get("pin_id")) , note= note )
-        print(self.context)
-        
         return note
 
 class PinCategorySerializer(serializers.ModelSerializer):
