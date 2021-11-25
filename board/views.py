@@ -1,10 +1,11 @@
 from rest_framework.viewsets import ModelViewSet
+
+import board
 from .serializers import BoardSerializer, CollaboratorSerializer, NoteSerializer, SectionSerializer
 from .models import Board, Collaborator, Note, Section
 
 
 class BoardViewSet(ModelViewSet):
-    # queryset = Board.objects.all()
     serializer_class = BoardSerializer
 
     def get_queryset(self):
@@ -22,10 +23,25 @@ class CollaboratorViewSet(ModelViewSet):
 
 
 class NoteViewSet(ModelViewSet):
-    queryset = Note.objects.all()
+    # queryset = Note.objects.all()
     serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        queryset = Note.objects.all()
+        board_id = self.request.query_params.get('board_id')
+        if board_id:
+            queryset = queryset.filter(board_id=board_id)
+
+        return queryset
 
 
 class SectionViewSet(ModelViewSet):
-    queryset = Section.objects.all()
     serializer_class = SectionSerializer
+
+    def get_queryset(self):
+        queryset = Section.objects.all()
+        board_id = self.request.query_params.get('board_id')
+        if board_id:
+            queryset = queryset.filter(board_id=board_id)
+
+        return queryset
