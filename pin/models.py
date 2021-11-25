@@ -33,6 +33,7 @@ class Section(models.Model):
         return self.name
 
 
+
 class Pin(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
@@ -43,11 +44,14 @@ class Pin(models.Model):
     content_src = models.URLField(max_length=200)
     share_type = models.CharField(max_length=15,choices=share_type)
     PinCategory = models.ManyToManyField('PinCategory')
-    note = models.ManyToManyField('Note')
+    note = models.ManyToManyField('Note', through='PinNote')
     PinSections = models.ManyToManyField('Section')
 
     
     def __str__(self):
         return self.title
+class PinNote(models.Model):
+    pin = models.ForeignKey(Pin, on_delete=models.CASCADE,) 
+    note = models.ForeignKey(Note, on_delete=models.CASCADE,)
 
 
