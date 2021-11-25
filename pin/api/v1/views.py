@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
-from pin.models import Pin
+from pin.models import Pin, Note
 from .serializers import PinSerializer, NoteSerializer
 from collections import OrderedDict
 
@@ -136,30 +136,31 @@ def single_pin(request, pk):
         return Response(data={"msg": "this pin does not exist"}, status=status.HTTP_400_BAD_REQUEST)
     serialized_pin = PinSerializer(instance=pin)
     return Response(data=serialized_pin.data,status=status.HTTP_200_OK)
+"""
 
 
 #Update
 @api_view(["PUT", "PATCH"])
-def update_pin(request, pk):
+def update_note(request,pin_id,  pk):
     try:
-        pin  = Pin.objects.get(pk = pk)      
+        note  = Note.objects.get(pk = pk)      
     except Exception as e:
         return Response(data={"msg": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    serialized_pin = PinSerializer(instance=pin, data = request.data )
-    if serialized_pin.is_valid():
-        serialized_pin.save()
-        return Response(serialized_pin.data, status=status.HTTP_200_OK)
-    return Response(serialized_pin.errors, status=status.HTTP_400_BAD_REQUEST)
+    serialized_note = NoteSerializer(instance=note, data = request.data )
+    if serialized_note.is_valid():
+        serialized_note.save()
+        return Response(serialized_note.data, status=status.HTTP_200_OK)
+    return Response(serialized_note.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 #D
 @api_view(["DELETE"])
-def delete_pin(request, pk):
+def delete_note(request,pin_id,  pk):
     res = {}
     try:
-        pin  = Pin.objects.get(pk = pk)
-        pin.delete()
-        res['data']= 'Successfully deleted the pin'
+        note  = Note.objects.get(pk = pk)
+        note.delete()
+        res['data']= 'Successfully deleted the note'
         res['status'] = status.HTTP_200_OK
     except Exception as e:
         res['data']= 'Error While Deleting: {}'.format(str(e))
@@ -170,4 +171,3 @@ def delete_pin(request, pk):
 
 
 
-"""

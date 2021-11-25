@@ -25,8 +25,14 @@ urlpatterns = [
     path('delete/<int:pk>/', views.delete_pin),
 
     ## Note URLS
+    # Create
     path('<int:pin_id>/pin_notes', views.note_create),
 
+    #Update
+    path('<int:pin_id>/update/<int:pk>/', views.update_note),
+
+     #Delete
+    path('<int:pin_id>/delete/<int:pk>/', views.delete_note),
 
 
 ] 
