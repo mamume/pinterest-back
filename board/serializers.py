@@ -10,8 +10,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ('id', )
 
-    id = serializers.StringRelatedField()
-
 
 class CollaboratorSerializer(serializers.ModelSerializer):
     class Meta:
