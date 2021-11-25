@@ -1,5 +1,6 @@
+from django.db.models import fields
 from rest_framework import serializers
-from .models import Board, Collaborator
+from .models import Board, Collaborator, Note, Section
 from account.models import UserProfile
 
 
@@ -23,3 +24,15 @@ class BoardSerializer(serializers.ModelSerializer):
         fields = ["id", "collaborators", "title", "share",
                   "description", "cover_img", "owner"]
         read_only_fields = ('cover_img',)
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = '__all__'
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        fields = '__all__'

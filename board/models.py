@@ -31,11 +31,17 @@ class Collaborator(models.Model):
 
 class Note(models.Model):
     title = models.CharField(max_length=255)
-    text = models.TextField(null=True)
-    ckeck_list = models.JSONField(null=True)
+    text = models.TextField(null=True, blank=True)
+    ckecklist = models.JSONField(null=True, blank=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Section(models.Model):
     name = models.CharField(max_length=255)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.name
