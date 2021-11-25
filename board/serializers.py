@@ -1,6 +1,16 @@
-from django.db.models import fields
+# from django.conf import UserSettingsHolder
+# from django.db.models import fields
 from rest_framework import serializers
 from .models import Board, Collaborator
+from account.models import UserProfile
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ('id', )
+
+    id = serializers.StringRelatedField()
 
 
 class CollaboratorSerializer(serializers.ModelSerializer):
@@ -8,11 +18,12 @@ class CollaboratorSerializer(serializers.ModelSerializer):
         model = Collaborator
         fields = '__all__'
 
+    user = UserSerializer(many=True)
+
 
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ['title', 'share', 'description',
-                  'collaborators', 'cover_img']
+        exclude = ["created_at", ]
 
-    collaborators = CollaboratorSerializer()
+    collaborators = CollaboratorSerializer(many=True)

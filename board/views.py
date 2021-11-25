@@ -8,6 +8,6 @@ from .models import Board
 class BoardDetail(APIView):
     def get(self, request, pk):
         board = get_object_or_404(Board, pk=pk)
-        serializer = BoardSerializer(board)
+        serializer = BoardSerializer(board, context={'request': request})
 
         return Response(serializer.data)
