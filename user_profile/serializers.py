@@ -5,7 +5,8 @@ from account.models import UserProfile, UserFollowing
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id', 'full_name', 'profile_pic', 'username']
+        fields = ['id', 'full_name', 'profile_pic',
+                  'username', 'following_count']
 
     # country_name = serializers.SerializerMethodField('get_country_name')
     full_name = serializers.SerializerMethodField('get_full_name')
@@ -17,4 +18,4 @@ class ProfileSerializer(serializers.ModelSerializer):
         return f"{instance.first_name} {instance.last_name}"
 
     def get_following_count(self, instance: UserProfile):
-        return UserFollowing.objects.filter()
+        return UserFollowing.objects.filter(user=instance).count()
