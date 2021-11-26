@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.contenttypes',
+    'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
@@ -54,8 +55,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'user_profile',
-
+    'pin',
+    'django.contrib.sites'
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -104,7 +107,7 @@ DATABASES = {
         'HOST': 'localhost',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'PORT': 5432
+        'PORT': ''
     }
 }
 

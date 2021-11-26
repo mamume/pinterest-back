@@ -1,6 +1,8 @@
-from django.urls import path
+from rest_framework import urlpatterns
+from rest_framework.routers import SimpleRouter
 from . import views
 
-urlpatterns = [
-    path("<int:pk>/", views.profile_detail, name="profile-detail")
-]
+router = SimpleRouter()
+router.register('list', views.ProfileViewSet, basename='profile-list')
+
+urlpatterns = router.urls
