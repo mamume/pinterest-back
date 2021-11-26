@@ -12,7 +12,7 @@ content_type = (
 ('video','video'),
 )
 
-class PinCategory(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -43,9 +43,9 @@ class Pin(models.Model):
     alt_text = models.CharField(max_length=500)
     content_src = models.URLField(max_length=200)
     share_type = models.CharField(max_length=15,choices=share_type)
-    PinCategory = models.ManyToManyField('PinCategory')
+    category = models.ManyToManyField('Category', through='PinCategory')
     note = models.ManyToManyField('Note', through='PinNote')
-    PinSections = models.ManyToManyField('Section')
+    section = models.ManyToManyField('Section', through='PinSection')
 
     
     def __str__(self):
@@ -53,5 +53,15 @@ class Pin(models.Model):
 class PinNote(models.Model):
     pin = models.ForeignKey(Pin, on_delete=models.CASCADE,) 
     note = models.ForeignKey(Note, on_delete=models.CASCADE,)
+
+
+class PinSection(models.Model):
+    pin = models.ForeignKey(Pin, on_delete=models.CASCADE,) 
+    section = models.ForeignKey(Section, on_delete=models.CASCADE,)
+
+
+class PinCategory(models.Model):
+    pin = models.ForeignKey(Pin, on_delete=models.CASCADE,) 
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,)
 
 
