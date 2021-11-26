@@ -1,6 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
 
-import board
 from .serializers import BoardSerializer, CollaboratorSerializer, NoteSerializer, SectionSerializer
 from .models import Board, Collaborator, Note, Section
 
@@ -23,7 +22,6 @@ class CollaboratorViewSet(ModelViewSet):
 
 
 class NoteViewSet(ModelViewSet):
-    # queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
     def get_queryset(self):

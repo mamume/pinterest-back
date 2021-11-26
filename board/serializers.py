@@ -1,4 +1,3 @@
-from django.db.models import fields
 from rest_framework import serializers
 from .models import Board, Collaborator, Note, Section
 from account.models import UserProfile

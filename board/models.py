@@ -19,7 +19,6 @@ class Board(models.Model):
 
 
 class Collaborator(models.Model):
-    # boards = models.ManyToManyField(Board)
     user = models.OneToOneField(
         UserProfile, primary_key=True, on_delete=models.CASCADE)
     is_super = models.BooleanField(default=False)
