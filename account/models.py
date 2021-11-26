@@ -46,7 +46,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=255)
     country = CountryField()
     profile_pic = models.ImageField(upload_to='account/profile_pics', null=True, blank=True)
-    blocked = models.ManyToManyField('self', null=True, blank=True)
+
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -71,7 +71,7 @@ class UserFollowing(models.Model):
     start_follow = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        constraints = models.UniqueConstraint(fields=['user_id', 'following_user_id'], name='unique_followers')
+        constraints = (models.UniqueConstraint(fields=['user_id', 'following_user_id'], name='unique_followers'),)
         ordering = ['-start_follow']
     
     def __str__(self):
@@ -82,7 +82,7 @@ class UserBlocked(models.Model):
     blocking_user_id = models.ForeignKey('UserProfile', related_name='blocker', on_delete=models.CASCADE)
     blocked = models.DateTimeField(default=timezone.now)
     class Meta:
-        constraints = models.UniqueConstraint(fields=['user_id', 'blocking_user_id'], name='uinique_blockers')
+        constraints = (models.UniqueConstraint(fields=['user_id', 'blocking_user_id'], name='uinique_blockers'),)
         ordering = ['-blocked']
 
     def __str__(self):
@@ -101,7 +101,7 @@ class Message(models.Model):
 class Notification(models.Model):
     text = models.TextField()
     created_at = models.DateField(auto_now_add=True)
-    user = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    user = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='notification')
 
 
     class Meta:
