@@ -6,7 +6,7 @@ from account.models import UserProfile
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id', 'username']
+        fields = ['id', 'username', 'profile_pic']
 
 
 class CollaboratorSerializer(serializers.ModelSerializer):
