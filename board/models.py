@@ -1,5 +1,6 @@
 from django.db import models
 from account.models import UserProfile
+from pin.models import Pin
 
 
 class Board(models.Model):
@@ -10,7 +11,7 @@ class Board(models.Model):
     cover_img = models.ImageField(
         upload_to="board/covers", null=True, blank=True)
 
-    # pins = models.ManyToManyField('Pin')
+    pins = models.ManyToManyField(Pin, blank=True)
     collaborators = models.ManyToManyField('Collaborator', blank=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
