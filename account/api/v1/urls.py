@@ -8,7 +8,7 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 urlpatterns = [
     path('signup', signup, name='user-signup'),
-    path('login', obtain_auth_token, name='user-login'),
+    # path('login', obtain_auth_token, name='user-login'),
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/auth', obtain_jwt_token, name='auth-token'),
