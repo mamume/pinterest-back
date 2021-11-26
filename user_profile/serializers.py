@@ -5,7 +5,7 @@ from account.models import UserProfile
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['id', 'get_full_name', 'profile_pic', 'username']
+        fields = ['id', 'full_name', 'profile_pic', 'username']
 
     # country_name = serializers.SerializerMethodField('get_country_name')
     full_name = serializers.SerializerMethodField('get_full_name')
