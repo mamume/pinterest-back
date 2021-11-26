@@ -22,6 +22,7 @@ import debug_toolbar
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('__debug__/', include(debug_toolbar.urls)),
+<<<<<<< HEAD
     path('board/', include('board.urls')),
     path('account/', include('account.api.v1.urls')),
     path('profile/', include('user_profile.urls')),
@@ -31,3 +32,8 @@ if settings.DEBUG:
     from django.conf.urls.static import static
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
+=======
+    # path('board/', include('board.urls'))
+    path('pin/', include('pin.api.v1.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+>>>>>>> origin/pins

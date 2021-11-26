@@ -10,9 +10,12 @@ class Board(models.Model):
     cover_img = models.ImageField(
         upload_to="board/covers", null=True, blank=True)
 
+<<<<<<< HEAD
     # pins = models.ManyToManyField('Pin')
     collaborators = models.ManyToManyField('Collaborator', blank=True)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+=======
+>>>>>>> origin/pins
 
     def __str__(self) -> str:
         return self.title
