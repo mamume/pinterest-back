@@ -5,4 +5,12 @@ from account.models import UserProfile
 
 class ProfileViewSet(ModelViewSet):
     serializer_class = ProfileSerializer
-    queryset = UserProfile.objects.all()
+
+    def get_queryset(self):
+        queryset = UserProfile.objects.all()
+        username = self.request.query_params.get('username')
+
+        if username:
+            queryset = queryset.filter(username=username)
+
+        return queryset
