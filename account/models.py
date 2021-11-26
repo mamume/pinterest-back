@@ -69,15 +69,15 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 
 
 class UserFollowing(models.Model):
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         'UserProfile', related_name='following', on_delete=models.CASCADE)
-    following_user_id = models.ForeignKey(
+    followed_user = models.ForeignKey(
         'UserProfile', related_name='follower', on_delete=models.CASCADE)
     start_follow = models.DateTimeField(default=timezone.now)
 
     class Meta:
         constraints = (models.UniqueConstraint(
-            fields=['user_id', 'following_user_id'], name='unique_followers'), )
+            fields=['user', 'followed_user'], name='unique_followers'), )
         ordering = ['-start_follow']
 
     def __str__(self):
