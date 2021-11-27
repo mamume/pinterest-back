@@ -15,7 +15,7 @@ djangorestframework = "*"
 django-extensions = "*"
 djangorestframework-simplejwt = "*"
 djangorestframework-jwt = "*"
-
+pyjwt = "*"
 
 [dev-packages]
 autopep8 = "*"
