@@ -8,17 +8,17 @@ from django.contrib.auth.password_validation import validate_password
 User = get_user_model()
 
 class FollowingSerializer(serializers.ModelSerializer):
-    following_user_id = serializers.StringRelatedField()
+    followed_user = serializers.StringRelatedField()
     class Meta:
         model = UserFollowing
-        fields = ['id', 'following_user_id', 'start_follow']
+        fields = ['id', 'followed_user', 'start_follow']
         
 
 class FollowerSerializer(serializers.ModelSerializer):
-    user_id = serializers.StringRelatedField()
+    user = serializers.StringRelatedField()
     class Meta:
         model = UserFollowing
-        fields = ['id', 'user_id', 'start_follow']
+        fields = ['id', 'user', 'start_follow']
         
 
 class NotificationSerializer(serializers.ModelSerializer):
