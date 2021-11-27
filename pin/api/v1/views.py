@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from pin.models import Pin, Note, Category, Section
 from .serializers import PinSerializer, NoteSerializer, CategorySerializer, SectionSerializer
 from collections import OrderedDict
+from rest_framework.decorators import api_view, permission_classes
 
 #############################################################################################################################
 ##  Start of Pin CRUD
@@ -21,12 +22,15 @@ def pin_create(request):
 
 #Read
 @api_view(["GET"])
+@permission_classes([])
+
 def pin_list(request):
     pins = Pin.objects.all()
     serialized_pins = PinSerializer(instance=pins, many=True)
     return Response(data=serialized_pins.data,status=status.HTTP_200_OK)
 
 @api_view(["GET"])
+@permission_classes([])
 def single_pin(request, pk):
     try:
         pin  = Pin.objects.get(pk = pk)
