@@ -6,16 +6,16 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.contrib.auth import get_user_model
 from account.models import UserFollowing, UserProfile
 from .serializers import UpdatePasswordSerializer, UserDataSerializer, UserSerializer
-from rest_framework_jwt.utils import jwt_payload_handler
+# from rest_framework_jwt.utils import jwt_payload_handler
 import jwt
 from django.conf import settings
 
 
-def create_token(user):
-    payload = jwt_payload_handler(user)
-    token = jwt.encode(payload, settings.SECRET_KEY)
-    token.decode('unicode_escape')
-    return token
+# def create_token(user):
+#     payload = jwt_payload_handler(user)
+#     token = jwt.encode(payload, settings.SECRET_KEY)
+#     token.decode('unicode_escape')
+#     return token
 
 
 User = get_user_model()
@@ -29,8 +29,8 @@ def signup(request):
     if user.is_valid():
         user.save()
         us = UserProfile.objects.get(email=request.data['email'])
-        token = create_token(us)
-        return Response(data={'token': token}, status=status.HTTP_201_CREATED)
+        # token = create_token(us)
+        return Response(data={'token': 'token'}, status=status.HTTP_201_CREATED)
     else:
         return Response(data=user.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -42,8 +42,7 @@ def profile_details(request, **kwargs):
     else:
         user = UserProfile.objects.filter(username=request.user)
     if user.exists():
-        ser_user = UserDataSerializer(
-            instance=user.first(), context={"request": request})
+        ser_user = UserDataSerializer(instance=user.first())
         return Response(data=ser_user.data, status=status.HTTP_200_OK)
     else:
         return Response(data={'msg': 'user not found'}, status=status.HTTP_400_BAD_REQUEST)
@@ -99,8 +98,8 @@ def activate(request):
         try:
             ser_user = UserSerializer(instance=user.first())
             ser_user.update(instance=user.first(), validated_data=data)
-            token = create_token(user.first())
-            return Response(data={'token': token}, status=status.HTTP_200_OK)
+            # token = create_token(user.first())
+            return Response(data={'token': 'token'}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(data={'msg': e})
     else:

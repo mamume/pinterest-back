@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sessions',
     'rest_framework',
     'debug_toolbar',
     'corsheaders',
@@ -51,11 +51,16 @@ INSTALLED_APPS = [
     # 'rest_framework.authtoken',
     'django_extensions',
     'django_countries',
-    'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
+    # 'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt.token_blacklist',
     'user_profile',
     'pin',
-    'django.contrib.sites'
+    'django.contrib.sites',
+
+    #Oauth2
+    'oauth2_provider',
+    'social_django',
+    'drf_social_oauth2',
 ]
 SITE_ID = 1
 
@@ -88,10 +93,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'pinterest.wsgi.application'
 
@@ -164,8 +173,10 @@ AUTH_USER_MODEL = 'account.UserProfile'
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES':(
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'drf_social_oauth2.authentication.SocialAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -173,69 +184,110 @@ REST_FRAMEWORK = {
 
 }
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=240),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': False,
+AUTHENTICATION_BACKENDS = (
+    # Others auth providers (e.g. Google, OpenId, etc)
+    
+    # Google OAuth2
+    'social_core.backends.google.GoogleOAuth2',
 
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY':settings.SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-    'JWK_URL': None,
-    'LEEWAY': 0,
+    # Facebook OAuth2
+    'social_core.backends.facebook.FacebookAppOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
 
-    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+    # drf_social_oauth2
+    'drf_social_oauth2.backends.DjangoOAuth2',
 
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
+    # Django
+    'django.contrib.auth.backends.ModelBackend',
+)
 
-    'JTI_CLAIM': 'jti',
+# Facebook configuration
+SOCIAL_AUTH_FACEBOOK_KEY = '1730643360462848'
+SOCIAL_AUTH_FACEBOOK_SECRET = '43b6ce7faf505b063cc9b0913479ce9d'
 
-    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+# Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from Facebook.
+# Email is not sent by default, to get it, you must request the email permission.
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email'
 }
 
-JWT_AUTH = {
-    'JWT_ENCODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_encode_handler',
+# Google configuration
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
-    'JWT_DECODE_HANDLER':
-    'rest_framework_jwt.utils.jwt_decode_handler',
+# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+]
 
-    'JWT_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_payload_handler',
 
-    'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-    'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+SOCIAL_AUTH_USER_FIELDS = ['email', 'username', 'password']
 
-    'JWT_RESPONSE_PAYLOAD_HANDLER':
-    'rest_framework_jwt.utils.jwt_response_payload_handler',
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=240),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+#     'ROTATE_REFRESH_TOKENS': True,
+#     'BLACKLIST_AFTER_ROTATION': True,
+#     'UPDATE_LAST_LOGIN': False,
 
-    'JWT_SECRET_KEY': settings.SECRET_KEY,
-    'JWT_GET_USER_SECRET_KEY': None,
-    'JWT_PUBLIC_KEY': None,
-    'JWT_PRIVATE_KEY': None,
-    'JWT_ALGORITHM': 'HS256',
-    'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=240),
-    'JWT_AUDIENCE': None,
-    'JWT_ISSUER': None,
+#     'ALGORITHM': 'HS256',
+#     'SIGNING_KEY':settings.SECRET_KEY,
+#     'VERIFYING_KEY': None,
+#     'AUDIENCE': None,
+#     'ISSUER': None,
+#     'JWK_URL': None,
+#     'LEEWAY': 0,
 
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+#     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
+#     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+#     'USER_ID_FIELD': 'id',
+#     'USER_ID_CLAIM': 'user_id',
+#     'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
 
-    'JWT_AUTH_HEADER_PREFIX': 'JWT',
-    'JWT_AUTH_COOKIE': False,
+#     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+#     'TOKEN_TYPE_CLAIM': 'token_type',
 
-}
+#     'JTI_CLAIM': 'jti',
+
+#     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+#     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+#     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+# }
+
+# JWT_AUTH = {
+#     'JWT_ENCODE_HANDLER':
+#     'rest_framework_jwt.utils.jwt_encode_handler',
+
+#     'JWT_DECODE_HANDLER':
+#     'rest_framework_jwt.utils.jwt_decode_handler',
+
+#     'JWT_PAYLOAD_HANDLER':
+#     'rest_framework_jwt.utils.jwt_payload_handler',
+
+#     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
+#     'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+
+#     'JWT_RESPONSE_PAYLOAD_HANDLER':
+#     'rest_framework_jwt.utils.jwt_response_payload_handler',
+
+#     'JWT_SECRET_KEY': settings.SECRET_KEY,
+#     'JWT_GET_USER_SECRET_KEY': None,
+#     'JWT_PUBLIC_KEY': None,
+#     'JWT_PRIVATE_KEY': None,
+#     'JWT_ALGORITHM': 'HS256',
+#     'JWT_VERIFY': True,
+#     'JWT_VERIFY_EXPIRATION': True,
+#     'JWT_LEEWAY': 0,
+#     'JWT_EXPIRATION_DELTA': timedelta(minutes=240),
+#     'JWT_AUDIENCE': None,
+#     'JWT_ISSUER': None,
+
+#     'JWT_ALLOW_REFRESH': True,
+#     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
+
+#     'JWT_AUTH_HEADER_PREFIX': 'JWT',
+#     'JWT_AUTH_COOKIE': False,
+
+# }
