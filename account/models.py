@@ -90,21 +90,25 @@ class UserFollowing(models.Model):
 
 
 class UserBlocked(models.Model):
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         'UserProfile', related_name='blocking', on_delete=models.CASCADE)
-    blocking_user_id = models.ForeignKey(
+    blocked_user = models.ForeignKey(
         'UserProfile', related_name='blocker', on_delete=models.CASCADE)
     blocked = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        constraints = (models.UniqueConstraint(
-            fields=['user_id', 'blocking_user_id'], name='uinique_blockers'), )
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'blocked_user'], name='unique_blocker'), 
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('blocked_user')), name="users can't block them selves"
+            ),]
         ordering = ['-blocked']
 
         verbose_name_plural = 'Users Blocking System'
 
     def __str__(self):
-        return f"{self.user_id} blocked {self.blocking_user_id}"
+        return f"{self.user} blocked {self.blocked_user}"
 
 
 class Message(models.Model):
