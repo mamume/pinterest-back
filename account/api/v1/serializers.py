@@ -116,6 +116,7 @@ class UserDataSerializer(serializers.ModelSerializer):
             'country', 
             'bio', 
             'profile_pic',
+            'website'
             'following',
             'follower',
             'notification',
@@ -134,6 +135,7 @@ class UserDataSerializer(serializers.ModelSerializer):
             gender = self.validated_data.get('gender'),
             country = self.validated_data.get('country'),
             profile_pic = self.validated_data.get('profile_pic'),
+            website = self.validated_data.get('website'),
                 
             )
 
