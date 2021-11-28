@@ -54,7 +54,7 @@ def follow(request, u_id):
     f_user = UserProfile.objects.filter(id=u_id)
     if f_user.exists():
         follow = UserFollowing.objects.create(
-            user_id=request.user, following_user_id=f_user.first())
+            user=request.user, followed_user=f_user.first())
         return Response(data={'msg': follow.__str__()}, status=status.HTTP_201_CREATED)
 
     else:
@@ -67,7 +67,7 @@ def unFollow(request, u_id):
     if f_user.exists():
         try:
             UserFollowing.objects.get(
-                user_id=request.user.id, following_user_id=u_id).delete()
+                user=request.user.id, followed_user=u_id).delete()
 
             return Response(data={'msg': f"{request.user} unfollowed {f_user.first().username}"}, status=status.HTTP_200_OK)
         except:
