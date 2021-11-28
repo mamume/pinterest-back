@@ -1,13 +1,10 @@
 from rest_framework.viewsets import ModelViewSet
-<<<<<<< HEAD
 from .serializers import ProfileSerializer
 from account.models import UserProfile
 from rest_framework.decorators import api_view, permission_classes
-=======
 from rest_framework.request import Request
 from .serializers import ProfileSerializer, UserFolloweingSerializer, UserFollowersSerializer
 from account.models import UserFollowing, UserProfile
->>>>>>> main
 
 @permission_classes([])
 class ProfileViewSet(ModelViewSet):
