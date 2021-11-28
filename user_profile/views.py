@@ -1,8 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
 from .serializers import ProfileSerializer
 from account.models import UserProfile
+from rest_framework.decorators import api_view, permission_classes
 
-
+@permission_classes([])
 class ProfileViewSet(ModelViewSet):
     serializer_class = ProfileSerializer
 
