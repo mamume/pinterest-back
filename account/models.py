@@ -39,15 +39,15 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(
         max_length=255, unique=True, validators=[username_validator])
-    first_name = models.CharField(max_length=255, blank=True)
-    last_name = models.CharField(max_length=255, blank=True)
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
     age = models.IntegerField(null=True)
-    bio = models.TextField(blank=True)
+    bio = models.TextField(blank=True, null=True)
     join_date = models.DateTimeField(default=timezone.now)
     gender = models.CharField(max_length=255)
     country = CountryField()
     profile_pic = models.ImageField(upload_to='account/profile_pics', null=True, blank=True)
-
+    website = models.URLField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
