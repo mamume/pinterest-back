@@ -39,15 +39,16 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     username = models.CharField(
         max_length=255, unique=True, validators=[username_validator])
-    first_name = models.CharField(max_length=255, blank=True)
-    last_name = models.CharField(max_length=255, blank=True)
-    age = models.IntegerField(null=True)
-    bio = models.TextField(blank=True)
+    first_name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
+    age = models.IntegerField(blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
     join_date = models.DateTimeField(default=timezone.now)
-    gender = models.CharField(max_length=255)
-    country = CountryField()
-    profile_pic = models.ImageField(upload_to='account/profile_pics', null=True, blank=True)
-
+    gender = models.CharField(max_length=255, blank=True, null=True)
+    country = CountryField(blank=True, null=True)
+    profile_pic = models.ImageField(
+        upload_to='account/profile_pics', null=True, blank=True)
+    website = models.URLField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -75,28 +76,39 @@ class UserFollowing(models.Model):
     start_follow = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        constraints = (models.UniqueConstraint(
-            fields=['user', 'followed_user'], name='unique_followers'), )
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'followed_user'], name='unique_followers'), 
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('followed_user')), name="users can't follow them selves"
+            ),]
         ordering = ['-start_follow']
+        verbose_name_plural = 'Users Following System'
 
     def __str__(self):
-        return f"{self.user_id} start following {self.following_user_id}"
+        return f"{self.user} start following {self.followed_user}"
 
 
 class UserBlocked(models.Model):
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         'UserProfile', related_name='blocking', on_delete=models.CASCADE)
-    blocking_user_id = models.ForeignKey(
+    blocked_user = models.ForeignKey(
         'UserProfile', related_name='blocker', on_delete=models.CASCADE)
     blocked = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        constraints = (models.UniqueConstraint(
-            fields=['user_id', 'blocking_user_id'], name='uinique_blockers'), )
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'blocked_user'], name='unique_blocker'), 
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('blocked_user')), name="users can't block them selves"
+            ),]
         ordering = ['-blocked']
 
+        verbose_name_plural = 'Users Blocking System'
+
     def __str__(self):
-        return f"{self.user_id} blocked {self.blocking_user_id}"
+        return f"{self.user} blocked {self.blocked_user}"
 
 
 class Message(models.Model):
@@ -113,7 +125,8 @@ class Message(models.Model):
 class Notification(models.Model):
     text = models.TextField()
     created_at = models.DateField(auto_now_add=True)
-    user = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='notification')
+    user = models.ForeignKey(
+        'UserProfile', on_delete=models.CASCADE, related_name='notification')
 
     class Meta:
         ordering = ['-created_at']

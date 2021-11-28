@@ -1,7 +1,8 @@
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth import get_user_model
-from rest_framework.authtoken.models import Token
+from oauth2_provider.models import AccessToken
+from oauth2_provider.models import RefreshToken
 
 # User = get_user_model()
 
