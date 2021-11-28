@@ -39,6 +39,20 @@ class UserFollowersSerializer(serializers.ModelSerializer):
         return FollowerData(followers, many=True, context=serializer_context).data
 
 
+class UserFolloweingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserFollowing
+        fields = ['following', ]
+
+    following = serializers.SerializerMethodField('get_following')
+
+    def get_following(self, instance: UserFollowing):
+        serializer_context = {'request': self.context.get('request')}
+        following = UserProfile.objects.filter(pk=instance.followed_user.id)
+
+        return FollowerData(following, many=True, context=serializer_context).data
+
+
 class FollowerData(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
