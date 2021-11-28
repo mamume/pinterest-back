@@ -5,7 +5,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.contrib.auth import get_user_model
 from account.models import UserFollowing, UserProfile
-from .serializers import UpdatePasswordSerializer, UserDataSerializer, UserSerializer
+from .serializers import FollowerSerializer, FollowingSerializer, UpdatePasswordSerializer, UserDataSerializer, UserSerializer
+from user_profile.serializers import ProfileSerializer
 # from rest_framework_jwt.utils import jwt_payload_handler
 import jwt
 from django.conf import settings
@@ -49,26 +50,28 @@ def profile_details(request, **kwargs):
         return Response(data={'msg': 'user not found'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def follow(request, u_id):
 
     f_user = UserProfile.objects.filter(id=u_id)
     if f_user.exists():
         follow = UserFollowing.objects.create(
-            user_id=request.user, following_user_id=f_user.first())
-        return Response(data={'msg': follow.__str__()}, status=status.HTTP_201_CREATED)
+            user=request.user, followed_user=f_user.first())
+        # follow_user_data = FollowingSerializer(f_user.first()).data
+        return Response(data={'data': 'success'}, status=status.HTTP_201_CREATED)
 
     else:
         return Response(data={'msg': 'user not found'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def unFollow(request, u_id):
     f_user = UserProfile.objects.filter(id=u_id)
+
     if f_user.exists():
         try:
             UserFollowing.objects.get(
-                user_id=request.user.id, following_user_id=u_id).delete()
+                user=request.user, followed_user=f_user.first()).delete()
 
             return Response(data={'msg': f"{request.user} unfollowed {f_user.first().username}"}, status=status.HTTP_200_OK)
         except:
