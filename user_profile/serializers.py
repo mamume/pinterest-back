@@ -1,5 +1,8 @@
+from typing import ContextManager
 from rest_framework import serializers
 from account.models import UserProfile, UserFollowing
+from operator import itemgetter
+from pprint import pprint
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -20,3 +23,28 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_followers_count(self, instance: UserProfile):
         return UserFollowing.objects.filter(followed_user=instance).count()
+
+
+class UserFollowersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserFollowing
+        fields = ['follower', ]
+
+    follower = serializers.SerializerMethodField('get_follower')
+
+    def get_follower(self, instance: UserFollowing):
+        serializer_context = {'request': self.context.get('request')}
+        followers = UserProfile.objects.filter(pk=instance.user.id)
+
+        return FollowerData(followers, many=True, context=serializer_context).data
+
+
+class FollowerData(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['username', 'full_name', 'profile_pic']
+
+    full_name = serializers.SerializerMethodField('get_full_name')
+
+    def get_full_name(self, instance: UserProfile):
+        return f"{instance.first_name} {instance.last_name}"

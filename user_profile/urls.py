@@ -4,5 +4,6 @@ from . import views
 
 router = SimpleRouter()
 router.register('list', views.ProfileViewSet, basename='profile-list')
+router.register('followers', views.UserFollowers, basename='followers-list')
 
 urlpatterns = router.urls
