@@ -187,6 +187,8 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
     # Others auth providers (e.g. Google, OpenId, etc)
     
+    # Google OAuth2
+    'social_core.backends.google.GoogleOAuth2',
 
     # Facebook OAuth2
     'social_core.backends.facebook.FacebookAppOAuth2',
@@ -209,6 +211,18 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email'
 }
+
+# Google configuration
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+# Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+]
+
+
 SOCIAL_AUTH_USER_FIELDS = ['email', 'username', 'password']
 
 # SIMPLE_JWT = {
