@@ -41,11 +41,11 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         max_length=255, unique=True, validators=[username_validator])
     first_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
-    age = models.IntegerField(null=True)
+    age = models.IntegerField(blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     join_date = models.DateTimeField(default=timezone.now)
-    gender = models.CharField(max_length=255)
-    country = CountryField()
+    gender = models.CharField(max_length=255, blank=True, null=True)
+    country = CountryField(blank=True, null=True)
     profile_pic = models.ImageField(upload_to='account/profile_pics', null=True, blank=True)
     website = models.URLField(null=True, blank=True)
 
@@ -78,6 +78,7 @@ class UserFollowing(models.Model):
         constraints = (models.UniqueConstraint(
             fields=['user', 'followed_user'], name='unique_followers'), )
         ordering = ['-start_follow']
+        verbose_name_plural = 'Users Following System'
 
     def __str__(self):
         return f"{self.user_id} start following {self.following_user_id}"
@@ -94,6 +95,8 @@ class UserBlocked(models.Model):
         constraints = (models.UniqueConstraint(
             fields=['user_id', 'blocking_user_id'], name='uinique_blockers'), )
         ordering = ['-blocked']
+
+        verbose_name_plural = 'Users Blocking System'
 
     def __str__(self):
         return f"{self.user_id} blocked {self.blocking_user_id}"
