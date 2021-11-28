@@ -75,13 +75,17 @@ class UserFollowing(models.Model):
     start_follow = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        constraints = (models.UniqueConstraint(
-            fields=['user', 'followed_user'], name='unique_followers'), )
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'followed_user'], name='unique_followers'), 
+            models.CheckConstraint(
+                check=~models.Q(user=models.F('followed_user')), name="users can't follow them selves"
+            ),]
         ordering = ['-start_follow']
         verbose_name_plural = 'Users Following System'
 
     def __str__(self):
-        return f"{self.user_id} start following {self.following_user_id}"
+        return f"{self.user} start following {self.followed_user}"
 
 
 class UserBlocked(models.Model):
