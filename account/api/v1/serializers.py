@@ -47,6 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
             'country', 
             'bio', 
             'profile_pic',
+            'website'
 
         ]
         extra_kwargs = {'password':{'write_only':True}}
@@ -63,6 +64,7 @@ class UserSerializer(serializers.ModelSerializer):
             gender = self.validated_data.get('gender'),
             country = self.validated_data.get('country'),
             profile_pic = self.validated_data.get('profile_pic'),
+            website = self.validated_data.get('website')
                 
             )
 
