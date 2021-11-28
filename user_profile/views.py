@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.request import Request
 from .serializers import ProfileSerializer
 from account.models import UserProfile
 
@@ -12,5 +13,7 @@ class ProfileViewSet(ModelViewSet):
 
         if username:
             queryset = queryset.filter(username=username)
+        else:
+            queryset = queryset.filter(username=self.request.user)
 
         return queryset
