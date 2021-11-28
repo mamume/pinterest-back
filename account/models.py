@@ -46,7 +46,8 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     join_date = models.DateTimeField(default=timezone.now)
     gender = models.CharField(max_length=255, blank=True, null=True)
     country = CountryField(blank=True, null=True)
-    profile_pic = models.ImageField(upload_to='account/profile_pics', null=True, blank=True)
+    profile_pic = models.ImageField(
+        upload_to='account/profile_pics', null=True, blank=True)
     website = models.URLField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
@@ -120,7 +121,8 @@ class Message(models.Model):
 class Notification(models.Model):
     text = models.TextField()
     created_at = models.DateField(auto_now_add=True)
-    user = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='notification')
+    user = models.ForeignKey(
+        'UserProfile', on_delete=models.CASCADE, related_name='notification')
 
     class Meta:
         ordering = ['-created_at']
