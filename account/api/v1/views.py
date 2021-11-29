@@ -38,13 +38,14 @@ def profile_details(request, **kwargs):
     else:
         user = UserProfile.objects.filter(username=request.user)
     if user.exists():
-        ser_user = UserDataSerializer(instance=user.first())
+        ser_user = UserDataSerializer(
+            instance=user.first(), context={'request': request})
         return Response(data=ser_user.data, status=status.HTTP_200_OK)
     else:
         return Response(data={'msg': 'user not found'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def follow(request, u_id):
 
     f_user = UserProfile.objects.filter(id=u_id)
@@ -57,13 +58,14 @@ def follow(request, u_id):
         return Response(data={'msg': 'user not found'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 def unFollow(request, u_id):
     f_user = UserProfile.objects.filter(id=u_id)
+
     if f_user.exists():
         try:
             UserFollowing.objects.get(
-                user=request.user.id, followed_user=u_id).delete()
+                user=request.user, followed_user=f_user.first()).delete()
 
             return Response(data={'msg': f"{request.user} unfollowed {f_user.first().username}"}, status=status.HTTP_200_OK)
         except:
