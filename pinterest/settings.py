@@ -223,7 +223,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 ]
 
 
-SOCIAL_AUTH_USER_FIELDS = ['email', 'username', 'password']
+SOCIAL_AUTH_USER_FIELDS = ['email', 'username', 'password', 'profile_pic']
 
 # SIMPLE_JWT = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=240),
