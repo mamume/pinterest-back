@@ -22,7 +22,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_pins(self, instance: UserProfile):
         serializer_context = {'request': self.context.get('request')}
         pins = Pin.objects.filter(owner=instance)
-        print(pins)
         return PinSerializer(pins, many=True, context=serializer_context).data
 
     def get_full_name(self, instance: UserProfile):
