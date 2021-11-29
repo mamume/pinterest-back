@@ -28,11 +28,6 @@ class BoardSerializer(serializers.ModelSerializer):
 
     pins = PinSerializer(many=True)
 
-    # def get_pins(self, instance: Board):
-    #     serializer_context = {'request': self.context.get('request')}
-    #     pins = Pin.objects.filter(owner=instance)
-    #     return PinSerializer(pins, many=True, context=serializer_context).data
-
 
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
