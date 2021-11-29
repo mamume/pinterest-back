@@ -17,6 +17,8 @@ urlpatterns = [
     path('pins/', views.pin_list),
     ## List a specific pin 
     path('<int:pk>/', views.single_pin),
+    ## List a users' pins
+    path('<int:user_id>/', views.user_pins),
 
     #Update
     path('update/<int:pk>/', views.update_pin),
