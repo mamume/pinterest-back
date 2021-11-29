@@ -56,7 +56,7 @@ class UserFolloweingSerializer(serializers.ModelSerializer):
 class FollowerData(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['username', 'full_name', 'profile_pic']
+        fields = ['id', 'username', 'full_name', 'profile_pic']
 
     full_name = serializers.SerializerMethodField('get_full_name')
 

@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from decouple import config
 import os
-from datetime import timedelta
-from django.conf import settings
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -43,19 +41,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
+
+    #3rd_party_tools
     'debug_toolbar',
     'corsheaders',
-    'board',
-    'account.apps.AccountConfig',
-    # 'rest_framework.authtoken',
     'django_extensions',
     'django_countries',
-    # 'rest_framework_simplejwt',
-    # 'rest_framework_simplejwt.token_blacklist',
+
+    #custom_apps
+    'board',
+    'account.apps.AccountConfig',
     'user_profile',
     'pin',
-    'django.contrib.sites',
 
     #Oauth2
     'oauth2_provider',
@@ -144,7 +143,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Cairo'
 
 USE_I18N = True
 
@@ -173,8 +172,6 @@ AUTH_USER_MODEL = 'account.UserProfile'
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES':(
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
         'drf_social_oauth2.authentication.SocialAuthentication',
     ),
@@ -225,69 +222,3 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 
 SOCIAL_AUTH_USER_FIELDS = ['email', 'username', 'password']
 
-# SIMPLE_JWT = {
-#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=240),
-#     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-#     'ROTATE_REFRESH_TOKENS': True,
-#     'BLACKLIST_AFTER_ROTATION': True,
-#     'UPDATE_LAST_LOGIN': False,
-
-#     'ALGORITHM': 'HS256',
-#     'SIGNING_KEY':settings.SECRET_KEY,
-#     'VERIFYING_KEY': None,
-#     'AUDIENCE': None,
-#     'ISSUER': None,
-#     'JWK_URL': None,
-#     'LEEWAY': 0,
-
-#     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
-#     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-#     'USER_ID_FIELD': 'id',
-#     'USER_ID_CLAIM': 'user_id',
-#     'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
-
-#     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-#     'TOKEN_TYPE_CLAIM': 'token_type',
-
-#     'JTI_CLAIM': 'jti',
-
-#     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-#     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-#     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-# }
-
-# JWT_AUTH = {
-#     'JWT_ENCODE_HANDLER':
-#     'rest_framework_jwt.utils.jwt_encode_handler',
-
-#     'JWT_DECODE_HANDLER':
-#     'rest_framework_jwt.utils.jwt_decode_handler',
-
-#     'JWT_PAYLOAD_HANDLER':
-#     'rest_framework_jwt.utils.jwt_payload_handler',
-
-#     'JWT_PAYLOAD_GET_USER_ID_HANDLER':
-#     'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
-
-#     'JWT_RESPONSE_PAYLOAD_HANDLER':
-#     'rest_framework_jwt.utils.jwt_response_payload_handler',
-
-#     'JWT_SECRET_KEY': settings.SECRET_KEY,
-#     'JWT_GET_USER_SECRET_KEY': None,
-#     'JWT_PUBLIC_KEY': None,
-#     'JWT_PRIVATE_KEY': None,
-#     'JWT_ALGORITHM': 'HS256',
-#     'JWT_VERIFY': True,
-#     'JWT_VERIFY_EXPIRATION': True,
-#     'JWT_LEEWAY': 0,
-#     'JWT_EXPIRATION_DELTA': timedelta(minutes=240),
-#     'JWT_AUDIENCE': None,
-#     'JWT_ISSUER': None,
-
-#     'JWT_ALLOW_REFRESH': True,
-#     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
-
-#     'JWT_AUTH_HEADER_PREFIX': 'JWT',
-#     'JWT_AUTH_COOKIE': False,
-
-# }
