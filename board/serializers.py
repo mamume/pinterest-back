@@ -3,6 +3,7 @@ from .models import Board, Collaborator, Note, Section
 from account.models import UserProfile
 
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
