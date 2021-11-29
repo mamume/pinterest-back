@@ -43,6 +43,20 @@ def single_pin(request, pk):
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     return Response(data=serialized_pin.data,status=status.HTTP_200_OK)
 
+@api_view(["GET"])
+@permission_classes([])
+def user_pins(request, pk):
+    try:
+        pin  = Pin.objects.get(owner = pk)
+    except Exception as e:
+        return Response(data={"msg": "failed to fetch tis users' pins"}, status=status.HTTP_400_BAD_REQUEST)
+    print(pin)
+    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    serialized_pin = PinSerializer(instance=pin)
+    print(serialized_pin)
+    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    return Response(data=serialized_pin.data,status=status.HTTP_200_OK)
+
 
 #Update
 @api_view(["PUT", "PATCH"])

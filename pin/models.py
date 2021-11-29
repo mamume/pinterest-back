@@ -1,4 +1,5 @@
 from django.db import models
+from account.models import UserProfile
 
 # Create your models here.
 
@@ -35,17 +36,19 @@ class Section(models.Model):
 
 
 class Pin(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField(max_length=500)
+    title = models.CharField(max_length=255)
+    description = models.TextField(max_length=500, blank=True)
     content_type = models.CharField(max_length=15,choices=content_type)
-    external_website= models.URLField(max_length=200)
+    external_website= models.URLField(max_length=200, blank=True)
     creation_date = models.DateTimeField(auto_now=True)
-    alt_text = models.CharField(max_length=500)
-    content_src = models.URLField(max_length=200)
+    alt_text = models.CharField(max_length=500, blank=True)
+    content_src = models.ImageField(
+        upload_to='pins/')
     share_type = models.CharField(max_length=15,choices=share_type)
     category = models.ManyToManyField('Category', through='PinCategory')
     note = models.ManyToManyField('Note', through='PinNote')
     section = models.ManyToManyField('Section', through='PinSection')
+    #owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     
     def __str__(self):
