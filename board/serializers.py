@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Board, Collaborator, Note, Section
 from account.models import UserProfile
-from pin.models import Pin
 from pin.api.v1.serializers import PinSerializer
 
 
