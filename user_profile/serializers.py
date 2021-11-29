@@ -1,10 +1,8 @@
-from typing import ContextManager
 from rest_framework import serializers
 from account.models import UserProfile, UserFollowing
-from operator import itemgetter
-from pprint import pprint
 from pin.api.v1.serializers import PinSerializer
 from pin.models import Pin
+from board.models import Board
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -18,6 +16,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     following_count = serializers.SerializerMethodField('get_following_count')
     followers_count = serializers.SerializerMethodField('get_followers_count')
     pins = serializers.SerializerMethodField('get_pins')
+    boards = serializers.SerializerMethodField('get_boards')
+
+    def get_boards(self, instance: UserProfile):
+        serializer_context = {'request': self.context.get('request')}
+        boards = Board.objects.filter()
 
     def get_pins(self, instance: UserProfile):
         serializer_context = {'request': self.context.get('request')}
