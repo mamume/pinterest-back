@@ -5,6 +5,7 @@ from .views import *
 
 
 urlpatterns = [
+    path('auth/', include('drf_social_oauth2.urls', namespace='drf')),
     path('signup', signup, name='user-signup'),
     path('details', profile_details, name='user-details'),
     path('<str:un>/details', profile_details, name='userame-details'),
@@ -13,5 +14,7 @@ urlpatterns = [
     path('deactivate', deactivate, name='deactivate'),
     path('activate', activate, name='activate'),
     path('update-password', update_password, name='update-password'),
-    path('auth/', include('drf_social_oauth2.urls', namespace='drf')),
+    path('update', update_profile, name='update-profile'),
+    path('delete', delete_user, name='delete-user')
+
 ]

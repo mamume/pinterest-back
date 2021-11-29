@@ -1,3 +1,4 @@
+from rest_framework import response
 from rest_framework.response import Response
 from django.http import request
 from rest_framework import status
@@ -79,10 +80,16 @@ def deactivate(request):
     data = {'is_active': False}
     user = UserProfile.objects.get(id=request.user.id)
     ser_user = UserSerializer(instance=user)
-
-    print(ser_user.data)
     ser_user.update(instance=user, validated_data=data)
     return Response(data=ser_user.data, status=status.HTTP_200_OK)
+
+@api_view(['PATCH'])
+def update_profile(request):
+    ser_user = UserSerializer(instance=request.user, data=request.data)
+    if ser_user.is_valid():
+        ser_user.update(instance=request.user, validated_data=request.data)
+        return Response(data={'msg':'updated successfully'}, status=status.HTTP_200_OK)
+    return Response(data=ser_user.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PATCH'])
@@ -112,3 +119,11 @@ def update_password(request):
         serializer.save()
         return Response(data={'msg': 'password changed successfuly'}, status=status.HTTP_200_OK)
     return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def delete_user(request):
+    try:
+        UserProfile.objects.get(username=request.user).delete()
+        return Response(data={'msg':'account deleted successfully'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(data={'msg':f"error while delete {e}"})

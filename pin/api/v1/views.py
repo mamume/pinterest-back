@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from pin.models import Pin, Note, Category, Section
 from .serializers import PinSerializer, NoteSerializer, CategorySerializer, SectionSerializer
 from collections import OrderedDict
+from rest_framework.decorators import api_view, permission_classes
 
 #############################################################################################################################
 ##  Start of Pin CRUD
@@ -21,12 +22,15 @@ def pin_create(request):
 
 #Read
 @api_view(["GET"])
+@permission_classes([])
+
 def pin_list(request):
     pins = Pin.objects.all()
-    serialized_pins = PinSerializer(instance=pins, many=True)
+    serialized_pins = PinSerializer(instance=pins, many=True, context={"request": request })
     return Response(data=serialized_pins.data,status=status.HTTP_200_OK)
 
 @api_view(["GET"])
+@permission_classes([])
 def single_pin(request, pk):
     try:
         pin  = Pin.objects.get(pk = pk)
@@ -36,6 +40,20 @@ def single_pin(request, pk):
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     serialized_pin = PinSerializer(instance=pin)
     print(serialized_pin)
+    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    return Response(data=serialized_pin.data,status=status.HTTP_200_OK)
+
+@api_view(["GET"])
+@permission_classes([])
+def user_pins(request, user_id):
+    try:
+        pins  = Pin.objects.select_related("UserProfile").filter(owner__id = user_id)
+    except Exception as e:
+        return Response(data={"msg": "failed to fetch this users' pins"}, status=status.HTTP_400_BAD_REQUEST)
+    print(pins)
+    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    serialized_pins = PinSerializer(instance=pins, many=True)
+    print(serialized_pins)
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     return Response(data=serialized_pin.data,status=status.HTTP_200_OK)
 
