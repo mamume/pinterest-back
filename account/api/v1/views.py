@@ -182,6 +182,7 @@ def resetPasswordCheck(request, uid64, token):
         return redirect(f"{redirect_url}?token_valid=false")
 
 @api_view(['PATCH'])
+@permission_classes([])
 def resetPasswordComplete(request):
     serializer = resetPasswordCompleteSerializer(data=request.data, context={'request':request})
     if serializer.is_valid():
