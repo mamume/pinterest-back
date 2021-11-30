@@ -23,7 +23,7 @@ class BoardSerializer(serializers.ModelSerializer):
         model = Board
         fields = ["id", "collaborators", "title", "share",
                   "description", "cover_img", "owner", 'pins']
-        read_only_fields = ('cover_img',)
+        read_only_fields = ("collaborators")
 
     pins = PinSerializer(many=True)
 
