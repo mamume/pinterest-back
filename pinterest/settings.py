@@ -222,3 +222,9 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 
 SOCIAL_AUTH_USER_FIELDS = ['email', 'username', 'password']
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'saiednotifier@gmail.com'
+EMAIL_HOST_PASSWORD = 'ahmed7said'
+EMAIL_PORT = 587
+EMAIL_USE_TLS =True
+
