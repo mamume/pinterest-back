@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from rest_framework.response import Response
 from django.shortcuts import redirect
 from django.http import request
@@ -176,7 +177,7 @@ def resetPasswordCheck(request, uid64, token):
         if not PasswordResetTokenGenerator().check_token(user, token):
             return redirect(f"{redirect_url}?token_valid=false")
         
-        return redirect(f"{redirect_url}?token_valid=true&?uid64={uid64}&?token={token}")
+        return redirect(f"{redirect_url}?token_valid=true&uid64={uid64}&token={token}")
 
     except DjangoUnicodeDecodeError as error:
         return redirect(f"{redirect_url}?token_valid=false")
@@ -184,8 +185,11 @@ def resetPasswordCheck(request, uid64, token):
 @api_view(['PATCH'])
 @permission_classes([])
 def resetPasswordComplete(request):
-    serializer = resetPasswordCompleteSerializer(data=request.data, context={'request':request})
+    serializer = resetPasswordCompleteSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        Response(data={'success':'Password reseted successfully'}, status=status.HTTP_200_OK)
-    Response(data=serializer.error, status=status.HTTP_400_BAD_REQUEST)
+        return Response(data={'success':'Password reseted successfully'}, status=status.HTTP_200_OK)
+
+    return Response(data=serializer.errors)
+
+ 
