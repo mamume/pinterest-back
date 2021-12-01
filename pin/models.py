@@ -44,7 +44,7 @@ class Pin(models.Model):
     alt_text = models.CharField(max_length=500, blank=True)
     content_src = models.ImageField(
         upload_to='pins/')
-    share_type = models.CharField(max_length=15,choices=share_type)
+    share_type = models.CharField(max_length=15,choices=share_type, blank=True)
     category = models.ManyToManyField('Category', through='PinCategory')
     note = models.ManyToManyField('Note', through='PinNote')
     section = models.ManyToManyField('Section', through='PinSection')

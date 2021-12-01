@@ -30,9 +30,9 @@ class SectionSerializer(serializers.ModelSerializer):
         return section
 
 class PinSerializer(serializers.ModelSerializer):
-    note = NoteSerializer(many=True)
-    category = CategorySerializer(many=True)
-    section = SectionSerializer(many=True)
+    #note = NoteSerializer(many=True)
+    #category = CategorySerializer(many=True)
+    #section = SectionSerializer(many=True)
     class Meta:
         model = Pin
         fields = '__all__'

@@ -8,7 +8,6 @@ from pin.models import Pin
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = UserProfile
         fields = ['id', 'full_name', 'profile_pic',

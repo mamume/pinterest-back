@@ -12,6 +12,7 @@ from rest_framework.decorators import api_view, permission_classes
 ##  Start of Pin CRUD
 #Create
 @api_view(['POST'])
+#@permission_classes([])
 def pin_create(request):
     if request.method == 'POST':
         serializer = PinSerializer(data=request.data)
@@ -22,8 +23,6 @@ def pin_create(request):
 
 #Read
 @api_view(["GET"])
-@permission_classes([])
-
 def pin_list(request):
     pins = Pin.objects.all()
     serialized_pins = PinSerializer(instance=pins, many=True, context={"request": request })
@@ -38,7 +37,8 @@ def single_pin(request, pk):
         return Response(data={"msg": "this pin does not exist"}, status=status.HTTP_400_BAD_REQUEST)
     print(pin)
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-    serialized_pin = PinSerializer(instance=pin)
+    serializer_context = {'request': request}
+    serialized_pin = PinSerializer(instance=pin, context=serializer_context)
     print(serialized_pin)
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     return Response(data=serialized_pin.data,status=status.HTTP_200_OK)
