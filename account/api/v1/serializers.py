@@ -1,11 +1,14 @@
+from logging import StreamHandler
+from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from account.models import *
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.encoding import force_str, smart_str
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
-
-
-User = get_user_model()
 
 class FollowingSerializer(serializers.ModelSerializer):
     followed_user = serializers.StringRelatedField()
@@ -96,6 +99,41 @@ class UpdatePasswordSerializer(serializers.Serializer):
         return user
 
 
+class resetPasswordCompleteSerializer(serializers.Serializer):
+    password = serializers.CharField(required=True)
+    uid64 = serializers.CharField(required=True)
+    token = serializers.CharField(required=True)
+
+    class Meta:
+        fields = ['password', 'uid64', 'token']
+
+    def validate_password(self, value):
+        try:
+            validate_password(value)
+        except Exception as e:
+            raise serializers.ValidationError(str(e), code=400)
+        return value
+
+    def save(self, **kwargs):
+        
+        uid64 = self.validated_data['uid64']
+        token = self.validated_data['token']
+        id = smart_str(urlsafe_base64_decode(uid64))
+        user = UserProfile.objects.get(id=id)
+        print(user, token)
+
+        if not PasswordResetTokenGenerator().check_token(user, token):
+            raise AuthenticationFailed(detail='link has been expired', code=401)
+
+        user.set_password(self.validated_data['password'])
+        user.save()
+        return user
+
+    
+
+
+
+
 class UserDataSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
     follower = serializers.SerializerMethodField()
@@ -121,7 +159,7 @@ class UserDataSerializer(serializers.ModelSerializer):
             'website',
 
         ]
-        # extra_kwargs = {'password':{'write_only':True}}
+        extra_kwargs = {'password':{'write_only':True}}
 
     def save(self, **kwargs):
         user = UserProfile(
