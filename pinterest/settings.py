@@ -50,16 +50,17 @@ INSTALLED_APPS = [
     'django_extensions',
     'django_countries',
 
+    #Oauth2
+    'oauth2_provider',
+    'social_django',
+    'drf_social_oauth2',
+
     #custom_apps
     'board',
     'account.apps.AccountConfig',
     'user_profile',
     'pin',
 
-    #Oauth2
-    'oauth2_provider',
-    'social_django',
-    'drf_social_oauth2',
 ]
 SITE_ID = 1
 

@@ -1,11 +1,12 @@
+from logging import StreamHandler
 from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.exceptions import AuthenticationFailed, ValidationError
 from account.models import *
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import force_str
+from django.utils.encoding import force_str, smart_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 
@@ -106,25 +107,30 @@ class resetPasswordCompleteSerializer(serializers.Serializer):
     class Meta:
         fields = ['password', 'uid64', 'token']
 
-    def validate(self, attrs):
+    def validate_password(self, value):
         try:
-            password = attrs.get('password')
-            validate_password(password, self.context['request'].user)
+            validate_password(value)
         except Exception as e:
-            raise serializers.ValidationError(str(e))
-        try:
-            uid64 = attrs.get('uid64')
-            token = attrs.get('token')
-            id = force_str(urlsafe_base64_decode(uid64))
-            user = UserProfile.objects.get(id=id)
-            if not PasswordResetTokenGenerator.check_token(user, token):
-                raise AuthenticationFailed('the link has expired', 401)
-            user.set_password(self.validated_data['password'])
-            user.save()
-            return user
+            raise serializers.ValidationError(str(e), code=400)
+        return value
 
-        except Exception as e:
-            raise AuthenticationFailed('the link has expired', 401)
+    def save(self, **kwargs):
+        
+        uid64 = self.validated_data['uid64']
+        token = self.validated_data['token']
+        id = smart_str(urlsafe_base64_decode(uid64))
+        user = UserProfile.objects.get(id=id)
+        print(user, token)
+
+        if not PasswordResetTokenGenerator().check_token(user, token):
+            raise AuthenticationFailed(detail='link has been expired', code=401)
+
+        user.set_password(self.validated_data['password'])
+        user.save()
+        return user
+
+    
+
 
 
 
