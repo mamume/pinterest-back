@@ -15,7 +15,13 @@ from rest_framework.decorators import api_view, permission_classes
 #@permission_classes([])
 def pin_create(request):
     if request.method == 'POST':
-        serializer = PinSerializer(data=request.data)
+        print("blahblahlalhalhlahlalhla")
+        print(request.data)
+        temp = request.data
+        temp = temp.dict()
+        board = temp.get("board")
+        print(temp)
+        serializer = PinSerializer(data=request.data, context={'board': board})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
