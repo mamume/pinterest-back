@@ -9,36 +9,43 @@ from collections import OrderedDict
 from rest_framework.decorators import api_view, permission_classes
 
 #############################################################################################################################
-##  Start of Pin CRUD
-#Create
+# Start of Pin CRUD
+# Create
+
+
 @api_view(['POST'])
-#@permission_classes([])
+# @permission_classes([])
 def pin_create(request):
     if request.method == 'POST':
         print("blahblahlalhalhlahlalhla")
         print(request.data)
         temp = request.data
         temp = temp.dict()
-        board = temp.get("board")
+        board_id = temp.get("board_id")
         print(temp)
-        serializer = PinSerializer(data=request.data, context={'board': board})
+        serializer = PinSerializer(data=request.data, context={
+                                   'board_id': board_id})
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#Read
+# Read
+
+
 @api_view(["GET"])
 def pin_list(request):
     pins = Pin.objects.all()
-    serialized_pins = PinSerializer(instance=pins, many=True, context={"request": request })
-    return Response(data=serialized_pins.data,status=status.HTTP_200_OK)
+    serialized_pins = PinSerializer(
+        instance=pins, many=True, context={"request": request})
+    return Response(data=serialized_pins.data, status=status.HTTP_200_OK)
+
 
 @api_view(["GET"])
 @permission_classes([])
 def single_pin(request, pk):
     try:
-        pin  = Pin.objects.get(pk = pk)
+        pin = Pin.objects.get(pk=pk)
     except Exception as e:
         return Response(data={"msg": "this pin does not exist"}, status=status.HTTP_400_BAD_REQUEST)
     print(pin)
@@ -47,13 +54,15 @@ def single_pin(request, pk):
     serialized_pin = PinSerializer(instance=pin, context=serializer_context)
     print(serialized_pin)
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-    return Response(data=serialized_pin.data,status=status.HTTP_200_OK)
+    return Response(data=serialized_pin.data, status=status.HTTP_200_OK)
+
 
 @api_view(["GET"])
 @permission_classes([])
 def user_pins(request, user_id):
     try:
-        pins  = Pin.objects.select_related("UserProfile").filter(owner__id = user_id)
+        pins = Pin.objects.select_related(
+            "UserProfile").filter(owner__id=user_id)
     except Exception as e:
         return Response(data={"msg": "failed to fetch this users' pins"}, status=status.HTTP_400_BAD_REQUEST)
     print(pins)
@@ -61,49 +70,49 @@ def user_pins(request, user_id):
     serialized_pins = PinSerializer(instance=pins, many=True)
     print(serialized_pins)
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-    return Response(data=serialized_pin.data,status=status.HTTP_200_OK)
+    return Response(data=serialized_pin.data, status=status.HTTP_200_OK)
 
 
-#Update
+# Update
 @api_view(["PUT", "PATCH"])
 def update_pin(request, pk):
     try:
-        pin  = Pin.objects.get(pk = pk)      
+        pin = Pin.objects.get(pk=pk)
     except Exception as e:
         return Response(data={"msg": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    serialized_pin = PinSerializer(instance=pin, data = request.data )
+    serialized_pin = PinSerializer(instance=pin, data=request.data)
     if serialized_pin.is_valid():
         serialized_pin.save()
         return Response(serialized_pin.data, status=status.HTTP_200_OK)
     return Response(serialized_pin.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#D
+# D
 @api_view(["DELETE"])
 def delete_pin(request, pk):
     res = {}
     try:
-        pin  = Pin.objects.get(pk = pk)
+        pin = Pin.objects.get(pk=pk)
         pin.delete()
-        res['data']= 'Successfully deleted the pin'
+        res['data'] = 'Successfully deleted the pin'
         res['status'] = status.HTTP_200_OK
     except Exception as e:
-        res['data']= 'Error While Deleting: {}'.format(str(e))
+        res['data'] = 'Error While Deleting: {}'.format(str(e))
         res['status'] = status.HTTP_400_BAD_REQUEST
-    
-    return Response(data=res.get('data'), status = res.get('status'))
 
-#End of Pin CRUD
+    return Response(data=res.get('data'), status=res.get('status'))
+
+# End of Pin CRUD
 #############################################################################################################################
 
 
 #############################################################################################################################
-##  Start of Note CRUD
-#Create
-#Create
+# Start of Note CRUD
+# Create
+# Create
 @api_view(['POST'])
 def note_create(request, pin_id):
-    
+
     if request.method == 'POST':
         data = request.data
         print(data)
@@ -113,7 +122,8 @@ def note_create(request, pin_id):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #return HttpResponse("hello")
+    # return HttpResponse("hello")
+
 
 """@api_view(['GET'])
 def note_create(request, pin_id):
@@ -163,46 +173,46 @@ def single_pin(request, pk):
 """
 
 
-#Update
+# Update
 @api_view(["PUT", "PATCH"])
-def update_note(request,pin_id,  pk):
+def update_note(request, pin_id,  pk):
     try:
-        note  = Note.objects.get(pk = pk)      
+        note = Note.objects.get(pk=pk)
     except Exception as e:
         return Response(data={"msg": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    serialized_note = NoteSerializer(instance=note, data = request.data )
+    serialized_note = NoteSerializer(instance=note, data=request.data)
     if serialized_note.is_valid():
         serialized_note.save()
         return Response(serialized_note.data, status=status.HTTP_200_OK)
     return Response(serialized_note.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#D
+# D
 @api_view(["DELETE"])
-def delete_note(request,pin_id,  pk):
+def delete_note(request, pin_id,  pk):
     res = {}
     try:
-        note  = Note.objects.get(pk = pk)
+        note = Note.objects.get(pk=pk)
         note.delete()
-        res['data']= 'Successfully deleted the note'
+        res['data'] = 'Successfully deleted the note'
         res['status'] = status.HTTP_200_OK
     except Exception as e:
-        res['data']= 'Error While Deleting: {}'.format(str(e))
+        res['data'] = 'Error While Deleting: {}'.format(str(e))
         res['status'] = status.HTTP_400_BAD_REQUEST
-    
-    return Response(data=res.get('data'), status = res.get('status'))
 
-#End of Note CRUD
+    return Response(data=res.get('data'), status=res.get('status'))
+
+# End of Note CRUD
 #############################################################################################################################
 
 
 #############################################################################################################################
-##  Start of Category CRUD
-#Create
-#Create
+# Start of Category CRUD
+# Create
+# Create
 @api_view(['POST'])
 def category_create(request, pin_id):
-    
+
     if request.method == 'POST':
         data = request.data
         print(data)
@@ -212,7 +222,8 @@ def category_create(request, pin_id):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #return HttpResponse("hello")
+    # return HttpResponse("hello")
+
 
 """@api_view(['GET'])
 def note_create(request, pin_id):
@@ -262,44 +273,47 @@ def single_pin(request, pk):
 """
 
 
-#Update
+# Update
 @api_view(["PUT", "PATCH"])
-def update_category(request,pin_id,  pk):
+def update_category(request, pin_id,  pk):
     try:
-        category  = Category.objects.get(pk = pk)      
+        category = Category.objects.get(pk=pk)
     except Exception as e:
         return Response(data={"msg": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    serialized_category = CategorySerializer(instance=category, data = request.data )
+    serialized_category = CategorySerializer(
+        instance=category, data=request.data)
     if serialized_category.is_valid():
         serialized_category.save()
         return Response(serialized_category.data, status=status.HTTP_200_OK)
     return Response(serialized_category.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#D
+# D
 @api_view(["DELETE"])
-def delete_category(request,pin_id,  pk):
+def delete_category(request, pin_id,  pk):
     res = {}
     try:
-        category  = Category.objects.get(pk = pk)
+        category = Category.objects.get(pk=pk)
         category.delete()
-        res['data']= 'Successfully deleted the category'
+        res['data'] = 'Successfully deleted the category'
         res['status'] = status.HTTP_200_OK
     except Exception as e:
-        res['data']= 'Error While Deleting: {}'.format(str(e))
+        res['data'] = 'Error While Deleting: {}'.format(str(e))
         res['status'] = status.HTTP_400_BAD_REQUEST
-    
-    return Response(data=res.get('data'), status = res.get('status'))
-## End of Category CRUD
+
+    return Response(data=res.get('data'), status=res.get('status'))
+# End of Category CRUD
 #############################################################################################################################
 
 #############################################################################################################################
-##  Start of Section CRUD
-#Create
-#Create
+# Start of Section CRUD
+# Create
+# Create
+
+
 @api_view(['POST'])
 def section_create(request, pin_id):
-    
+
     if request.method == 'POST':
         data = request.data
         print(data)
@@ -309,7 +323,8 @@ def section_create(request, pin_id):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #return HttpResponse("hello")
+    # return HttpResponse("hello")
+
 
 """@api_view(['GET'])
 def note_create(request, pin_id):
@@ -359,38 +374,34 @@ def single_pin(request, pk):
 """
 
 
-#Update
+# Update
 @api_view(["PUT", "PATCH"])
-def update_section(request,pin_id,  pk):
+def update_section(request, pin_id,  pk):
     try:
-        section  = Section.objects.get(pk = pk)      
+        section = Section.objects.get(pk=pk)
     except Exception as e:
         return Response(data={"msg": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    serialized_section = SectionSerializer(instance=section, data = request.data )
+    serialized_section = SectionSerializer(instance=section, data=request.data)
     if serialized_section.is_valid():
         serialized_section.save()
         return Response(serialized_section.data, status=status.HTTP_200_OK)
     return Response(serialized_section.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-#D
+# D
 @api_view(["DELETE"])
-def delete_section(request,pin_id,  pk):
+def delete_section(request, pin_id,  pk):
     res = {}
     try:
-        section  = Section.objects.get(pk = pk)
+        section = Section.objects.get(pk=pk)
         section.delete()
-        res['data']= 'Successfully deleted the section'
+        res['data'] = 'Successfully deleted the section'
         res['status'] = status.HTTP_200_OK
     except Exception as e:
-        res['data']= 'Error While Deleting: {}'.format(str(e))
+        res['data'] = 'Error While Deleting: {}'.format(str(e))
         res['status'] = status.HTTP_400_BAD_REQUEST
-    
-    return Response(data=res.get('data'), status = res.get('status'))
 
-#End of Section CRUD
+    return Response(data=res.get('data'), status=res.get('status'))
+
+# End of Section CRUD
 #############################################################################################################################
-
-
-
-
