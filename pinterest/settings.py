@@ -44,18 +44,18 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
 
-    #3rd_party_tools
+    # 3rd_party_tools
     'debug_toolbar',
     'corsheaders',
     'django_extensions',
     'django_countries',
 
-    #Oauth2
+    # Oauth2
     'oauth2_provider',
     'social_django',
     'drf_social_oauth2',
 
-    #custom_apps
+    # custom_apps
     'board',
     'account.apps.AccountConfig',
     'user_profile',
@@ -99,7 +99,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 
 WSGI_APPLICATION = 'pinterest.wsgi.application'
@@ -157,6 +156,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 
 
 # Default primary key field type
@@ -172,19 +172,19 @@ AUTH_USER_MODEL = 'account.UserProfile'
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
-    'DEFAULT_AUTHENTICATION_CLASSES':(
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
         'drf_social_oauth2.authentication.SocialAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-    ),  
+    ),
 
 }
 
 AUTHENTICATION_BACKENDS = (
     # Others auth providers (e.g. Google, OpenId, etc)
-    
+
     # Google OAuth2
     'social_core.backends.google.GoogleOAuth2',
 
@@ -227,5 +227,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'saiednotifier@gmail.com'
 EMAIL_HOST_PASSWORD = 'ahmed7said'
 EMAIL_PORT = 587
-EMAIL_USE_TLS =True
-
+EMAIL_USE_TLS = True
