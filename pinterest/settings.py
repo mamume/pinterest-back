@@ -29,7 +29,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
 CORS_ALLOW_ALL_ORIGINS = True
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['18.222.139.37']
 
 
 # Application definition
