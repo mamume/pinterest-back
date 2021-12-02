@@ -8,8 +8,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.contrib.auth import get_user_model
 from account.models import UserFollowing, UserProfile
 from .serializers import *
-from oauth2_provider.models import AccessToken
-from oauth2_provider.models import RefreshToken
+# from oauth2_provider.models import AccessToken
+# from oauth2_provider.models import RefreshToken
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_str, smart_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
