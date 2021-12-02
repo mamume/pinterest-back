@@ -6,9 +6,9 @@ media/
 __pycache__/
 *.py[cod]
 
-**/migrations/**
-!**/migrations
-!**/migrations/__init__.py
+# **/migrations/**
+# !**/migrations
+# !**/migrations/__init__.py
 
 
 ### Django ###
