@@ -29,7 +29,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         return PinSerializer(pins, many=True, context=serializer_context).data
 
     def get_full_name(self, instance: UserProfile):
-        if instance.first_name and instance.last_name:
+        if instance.first_name or instance.last_name:
             return f"{instance.first_name} {instance.last_name}"
         else:
             return None
@@ -77,7 +77,7 @@ class FollowerData(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField('get_full_name')
 
     def get_full_name(self, instance: UserProfile):
-        if instance.first_name and instance.last_name:
+        if instance.first_name or instance.last_name:
             return f"{instance.first_name} {instance.last_name}"
         else:
             return instance.username
