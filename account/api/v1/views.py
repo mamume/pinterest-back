@@ -198,7 +198,7 @@ def resetPasswordComplete(request):
 def checkmail(request):
     user = UserProfile.objects.filter(email=request.data['email'])
     if user.exists():
-        return Response(data={"fail":False}, status=status.HTTP_200_OK)
+        return Response(data={"fail":True}, status=status.HTTP_200_OK)
     else:
         return Response(data={'success':True}, status=status.HTTP_200_OK)
 
