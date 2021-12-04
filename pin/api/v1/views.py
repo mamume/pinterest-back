@@ -7,10 +7,30 @@ from pin.models import Pin, Note, Category, Section
 from .serializers import PinSerializer, NoteSerializer, CategorySerializer, SectionSerializer
 from collections import OrderedDict
 from rest_framework.decorators import api_view, permission_classes
+from board.models import Board
 
 #############################################################################################################################
 # Start of Pin CRUD
 # Create
+
+@api_view(['POST'])
+# @permission_classes([])
+def link_board(request):
+    if request.method == 'POST':
+        print(request.data.dict().get('pin_id'))
+        pin_id = int(request.data.dict().get('pin_id'))
+        board_id = int(request.data.dict().get('board_id'))
+        temp = request.data.dict()
+        
+        
+        print(board_id)
+        board = Board.objects.get(pk = board_id)
+        #print(board)
+        pin = Pin.objects.get(pk = pin_id)
+        board.pins.add(pin)
+
+        return HttpResponse("Successfully added to board")
+
 
 
 @api_view(['POST'])
@@ -36,6 +56,8 @@ def pin_create(request):
 @api_view(["GET"])
 def pin_list(request):
     pins = Pin.objects.all()
+    print(pins)
+    
     serialized_pins = PinSerializer(
         instance=pins, many=True, context={"request": request})
     return Response(data=serialized_pins.data, status=status.HTTP_200_OK)
@@ -48,7 +70,6 @@ def single_pin(request, pk):
         pin = Pin.objects.get(pk=pk)
     except Exception as e:
         return Response(data={"msg": "this pin does not exist"}, status=status.HTTP_400_BAD_REQUEST)
-    print(pin)
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     serializer_context = {'request': request}
     serialized_pin = PinSerializer(instance=pin, context=serializer_context)
