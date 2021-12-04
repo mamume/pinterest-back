@@ -6,7 +6,6 @@ from board.models import Board
 from django.shortcuts import get_object_or_404
 
 
-
 class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
@@ -42,24 +41,23 @@ class SectionSerializer(serializers.ModelSerializer):
             pk=self.context.get("pin_id")), section=section)
         return section
 
+
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = [ 'title', 'id', ]
+        fields = ['title', 'id', ]
 
 
- 
 class PinSerializer(serializers.ModelSerializer):
     #note = NoteSerializer(many=True)
     #category = CategorySerializer(many=True)
     #section = SectionSerializer(many=True)
     board = serializers.SerializerMethodField("get_board")
-    
+
     class Meta:
         model = Pin
         fields = '__all__'
-        read_only_fields = ('board',)
-        
+        # read_only_fields = ('board',)
 
     def create(self, validated_data):
         # example_relationship = validated_data.pop('example_relationship')
@@ -74,17 +72,14 @@ class PinSerializer(serializers.ModelSerializer):
             boards.pins.add(pin)
         except:
             pin = Pin.objects.create(**validated_data)
-        
+
         return pin
 
-    def get_board(self, instance:Pin ):
+    def get_board(self, instance: Pin):
 
-      
         try:
-            board = Board.objects.get(pins=instance)
+            board = Board.objects.filter(pins=instance)[0]
             return BoardSerializer(board).data
         except:
-            return "None" 
+            return "None"
         #board = get_object_or_404(Board, pins=instance)
-    
-        
