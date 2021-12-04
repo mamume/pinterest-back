@@ -193,3 +193,20 @@ def resetPasswordComplete(request):
     return Response(data=serializer.errors)
 
  
+@api_view(['POST'])
+@permission_classes([])
+def checkmail(request):
+    user = UserProfile.objects.filter(email=request.data['email'])
+    if user.exists():
+        return Response(data={"fail":False}, status=status.HTTP_200_OK)
+    else:
+        return Response(data={'success':True}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([])
+def checkuser(request):
+    user = UserProfile.objects.filter(username=request.data['username'])
+    if user.exists():
+        return Response(data={"fail":False}, status=status.HTTP_200_OK)
+    else:
+        return Response(data={'success':True}, status=status.HTTP_200_OK)
