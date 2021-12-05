@@ -1,12 +1,12 @@
-# from django.dispatch import receiver
-# from django.db.models.signals import post_save
-# from .models import UserProfile
-# if len(UserProfile.objects.all()) > 0:
-#     from oauth2_provider.models import AccessToken
-#     from oauth2_provider.models import RefreshToken
-#     from oauth2_provider.models import Application
-#     from django.utils import timezone
-#     from oauthlib.common import generate_token
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from .models import UserProfile, Notification
+from oauth2_provider.models import AccessToken
+from oauth2_provider.models import RefreshToken
+from oauth2_provider.models import Application
+from django.utils import timezone
+from oauthlib.common import generate_token
+from pin.models import Pin
 
 #     def refresh_time():
 #         time = timezone.now() + timezone.timedelta(days=7)
@@ -21,6 +21,7 @@
 #     if Application.objects.all().count() > 0:
 #         app = Application.objects.get(id=1)
 
+
 #     @receiver(post_save, sender=UserProfile)
 #     def signupToken(created, instance, *args, **kwargs):
 #         if created:
@@ -32,8 +33,3 @@
 #                     source_refresh_token=refresh_token,
 #                     application=app,
 #                     expires=access_time(),
-#                     token=acc_tok,
-#                     scope='read write'
-#                 )
-#                 RefreshToken.objects.filter(token=ref_tok).update(
-#                     access_token=access_token)

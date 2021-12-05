@@ -1,3 +1,4 @@
+from django.db.models import fields
 from rest_framework import serializers
 
 from pin.models import Pin
@@ -20,13 +21,12 @@ class CollaboratorSerializer(serializers.ModelSerializer):
     user = UserSerializer()
 
 
-
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
         fields = ["id", "collaborators", "title", "share",
                   "description", "cover_img", "owner", 'pins']
-        read_only_fields = ["collaborators", "pins"]
+        read_only_fields = ["collaborators", ]
 
     pins = serializers.SerializerMethodField('get_pins')
 
@@ -34,6 +34,12 @@ class BoardSerializer(serializers.ModelSerializer):
         serializer_context = {'request': self.context.get('request')}
         pins = Pin.objects.filter(board=instance)
         return PinSerializer(pins, many=True, context=serializer_context).data
+
+
+class BoardUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Board
+        fields = ("pins", )
 
 
 class NoteSerializer(serializers.ModelSerializer):
