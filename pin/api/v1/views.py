@@ -1,4 +1,4 @@
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -13,6 +13,7 @@ from board.models import Board
 # Start of Pin CRUD
 # Create
 
+
 @api_view(['POST'])
 # @permission_classes([])
 def link_board(request):
@@ -21,16 +22,14 @@ def link_board(request):
         pin_id = int(request.data.dict().get('pin_id'))
         board_id = int(request.data.dict().get('board_id'))
         temp = request.data.dict()
-        
-        
+
         print(board_id)
-        board = Board.objects.get(pk = board_id)
-        #print(board)
-        pin = Pin.objects.get(pk = pin_id)
+        board = Board.objects.get(pk=board_id)
+        # print(board)
+        pin = Pin.objects.get(pk=pin_id)
         board.pins.add(pin)
 
-        return HttpResponse("Successfully added to board")
-
+        return JsonResponse("Successfully added to board", safe=False)
 
 
 @api_view(['POST'])
@@ -57,7 +56,7 @@ def pin_create(request):
 def pin_list(request):
     pins = Pin.objects.all()
     print(pins)
-    
+
     serialized_pins = PinSerializer(
         instance=pins, many=True, context={"request": request})
     return Response(data=serialized_pins.data, status=status.HTTP_200_OK)
@@ -91,7 +90,7 @@ def user_pins(request, user_id):
     serialized_pins = PinSerializer(instance=pins, many=True)
     print(serialized_pins)
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-    return Response(data=serialized_pin.data, status=status.HTTP_200_OK)
+    return Response(data=serialized_pins.data, status=status.HTTP_200_OK)
 
 
 # Update
