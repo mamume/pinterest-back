@@ -10,5 +10,4 @@ router.register('collaborator', views.CollaboratorViewSet,
 router.register('note', views.NoteViewSet, basename='note-list')
 router.register('section', views.SectionViewSet, basename='section-list')
 
-
 urlpatterns = router.urls
