@@ -1,11 +1,9 @@
-from django.contrib.auth.models import User
 from rest_framework.response import Response
 from django.shortcuts import redirect
 from django.http import request
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django.contrib.auth import get_user_model
 from account.models import UserFollowing, UserProfile
 from .serializers import *
 from oauth2_provider.models import AccessToken
