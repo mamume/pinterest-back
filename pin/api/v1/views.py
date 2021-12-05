@@ -70,7 +70,7 @@ def user_pins(request, user_id):
     serialized_pins = PinSerializer(instance=pins, many=True)
     print(serialized_pins)
     print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
-    return Response(data=serialized_pin.data, status=status.HTTP_200_OK)
+    return Response(data=serialized_pins.data, status=status.HTTP_200_OK)
 
 
 # Update
