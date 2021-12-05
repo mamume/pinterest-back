@@ -1,10 +1,14 @@
+from rest_framework import request
 from rest_framework.viewsets import ModelViewSet
-from .serializers import ProfileSerializer
+
+from pin.models import Pin
+from .serializers import PinDeleteSerializer, ProfileSerializer
 from account.models import UserProfile
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
 from .serializers import ProfileSerializer, UserFolloweingSerializer, UserFollowersSerializer
 from account.models import UserFollowing, UserProfile
+
 
 @permission_classes([])
 class ProfileViewSet(ModelViewSet):
@@ -47,3 +51,8 @@ class FollowingViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {"request": self.request}
+
+
+class PinDeleteViewSet(ModelViewSet):
+    serializer_class = PinDeleteSerializer
+    queryset = Pin.objects.all()

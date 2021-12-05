@@ -81,3 +81,9 @@ class FollowerData(serializers.ModelSerializer):
             return f"{instance.first_name} {instance.last_name}"
         else:
             return instance.username
+
+
+class PinDeleteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pin
+        fields = '__all__'
