@@ -47,7 +47,7 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name', 
             'age', 
             'gender', 
-            #'country', 
+            'country', 
             'bio', 
             'profile_pic',
             'website',

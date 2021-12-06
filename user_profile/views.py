@@ -10,7 +10,7 @@ from .serializers import ProfileSerializer, UserFolloweingSerializer, UserFollow
 from account.models import UserFollowing, UserProfile
 
 
-@permission_classes([])
+# @permission_classes([])
 class ProfileViewSet(ModelViewSet):
     serializer_class = ProfileSerializer
 
