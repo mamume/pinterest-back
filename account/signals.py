@@ -8,44 +8,28 @@ from django.utils import timezone
 from oauthlib.common import generate_token
 from pin.models import Pin
 
-def refresh_time():
-    time = timezone.now() + timezone.timedelta(days=7)
-    return time
+#     def refresh_time():
+#         time = timezone.now() + timezone.timedelta(days=7)
+#         return time
 
-def access_time():
-    time = timezone.now() + timezone.timedelta(hours=10)
-    return time
+#     def access_time():
+#         time = timezone.now() + timezone.timedelta(hours=10)
+#         return time
 
-ref_tok = generate_token()
-acc_tok = generate_token()
-
-
-    
-
-@receiver(post_save, sender=UserProfile)
-def signupToken(created, instance, *args, **kwargs):
-    if created:
-        try:
-            app = Application.objects.get(id=1)
-            if not instance.is_superuser:
-                refresh_token = RefreshToken.objects.create(user=instance, application=app, revoked=refresh_time(), token=ref_tok)
-                access_token = AccessToken.objects.create(
-                    user=instance,
-                    source_refresh_token=refresh_token, 
-                    application=app, 
-                    expires = access_time(),
-                    token=acc_tok,
-                    scope='read write'
-                )
-                RefreshToken.objects.filter(token=ref_tok).update(access_token=access_token)
-        except Exception as e:
-            print(e)
+#     ref_tok = generate_token()
+#     acc_tok = generate_token()
+#     if Application.objects.all().count() > 0:
+#         app = Application.objects.get(id=1)
 
 
-
-@receiver(post_save, sender=Pin)
-def post_notif(instance, created, *args, **kwargs):
-    if created:
-        users = instance.owner.follower.all()
-        for user in users:
-            Notification.objects.create(text=f"{instance.owner} posted new pin '{instance.title}'", user=user.user)
+#     @receiver(post_save, sender=UserProfile)
+#     def signupToken(created, instance, *args, **kwargs):
+#         if created:
+#             if not instance.is_superuser:
+#                 refresh_token = RefreshToken.objects.create(
+#                     user=instance, application=app, revoked=refresh_time(), token=ref_tok)
+#                 access_token = AccessToken.objects.create(
+#                     user=instance,
+#                     source_refresh_token=refresh_token,
+#                     application=app,
+#                     expires=access_time(),
