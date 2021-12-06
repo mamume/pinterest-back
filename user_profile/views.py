@@ -23,6 +23,11 @@ class ProfileViewSet(ModelViewSet):
         return UserProfile.objects.filter(username=self.request.user)
 
 
+class ProfileDetailsViewSet(ModelViewSet):
+    serializer_class = ProfileSerializer
+    queryset = UserProfile.objects.all()
+
+
 class FollowersViewSet(ModelViewSet):
     serializer_class = UserFollowersSerializer
 
