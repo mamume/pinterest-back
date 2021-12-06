@@ -16,8 +16,6 @@ def access_time():
     time = timezone.now() + timezone.timedelta(hours=10)
     return time
 
-ref_tok = generate_token()
-acc_tok = generate_token()
 
 
     
@@ -26,6 +24,9 @@ acc_tok = generate_token()
 def signupToken(created, instance, *args, **kwargs):
     if created:
         try:
+
+            ref_tok = generate_token()
+            acc_tok = generate_token()
             app = Application.objects.get(id=1)
             if not instance.is_superuser:
                 refresh_token = RefreshToken.objects.create(user=instance, application=app, revoked=refresh_time(), token=ref_tok)
