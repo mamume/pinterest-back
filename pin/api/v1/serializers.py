@@ -45,7 +45,7 @@ class SectionSerializer(serializers.ModelSerializer):
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ['title', 'id', ]
+        fields = ['title', 'id','owner' ]
 
 
 class PinSerializer(serializers.ModelSerializer):
