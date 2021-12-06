@@ -11,6 +11,7 @@ urlpatterns = [
     ## Pin URLs
     #Create
     path('create', views.pin_create),
+    path('link_board', views.link_board),
 
     #Read
     ## List all Pins 
