@@ -2,6 +2,7 @@ from rest_framework import serializers
 from pin.models import Pin, Category, Note, Section, PinNote, PinCategory, PinSection
 from django.http.response import HttpResponse
 from board.models import Board
+
 from django.shortcuts import get_object_or_404
 
 
@@ -41,13 +42,22 @@ class SectionSerializer(serializers.ModelSerializer):
         return section
 
 
+class BoardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Board
+        fields = ['title', 'id','owner' ]
+
+
 class PinSerializer(serializers.ModelSerializer):
     #note = NoteSerializer(many=True)
     #category = CategorySerializer(many=True)
     #section = SectionSerializer(many=True)
+    board = serializers.SerializerMethodField("get_board")
+
     class Meta:
         model = Pin
         fields = '__all__'
+        # read_only_fields = ('board',)
 
     def create(self, validated_data):
         # example_relationship = validated_data.pop('example_relationship')
@@ -56,7 +66,20 @@ class PinSerializer(serializers.ModelSerializer):
         # return instance
         print(
             "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((")
-        board = get_object_or_404(Board, pk=self.context.get("board_id"))
-        pin = Pin.objects.create(**validated_data)
-        board.pins.add(pin)
+        try:
+            boards = get_object_or_404(Board, pk=self.context.get("board_id"))
+            pin = Pin.objects.create(**validated_data)
+            boards.pins.add(pin)
+        except:
+            pin = Pin.objects.create(**validated_data)
+
         return pin
+
+    def get_board(self, instance: Pin):
+
+        try:
+            board = Board.objects.filter(pins=instance)[0]
+            return BoardSerializer(board).data
+        except:
+            return "None"
+        #board = get_object_or_404(Board, pins=instance)

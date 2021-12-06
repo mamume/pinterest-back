@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from .serializers import BoardSerializer, CollaboratorSerializer, NoteSerializer, SectionSerializer
+from .serializers import BoardSerializer, BoardUpdateSerializer, CollaboratorSerializer, NoteSerializer, SectionSerializer
 from .models import Board, Collaborator, Note, Section
 
 
@@ -18,6 +18,11 @@ class BoardViewSet(ModelViewSet):
             queryset = queryset.filter(pk=board_id)
 
         return queryset
+
+
+class BoardUpdateViewSet(ModelViewSet):
+    serializer_class = BoardUpdateSerializer
+    queryset = Board.objects.all()
 
 
 class CollaboratorViewSet(ModelViewSet):

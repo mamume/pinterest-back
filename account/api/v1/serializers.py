@@ -129,7 +129,7 @@ class resetPasswordCompleteSerializer(serializers.Serializer):
         user.save()
         return user
 
-    
+   
 
 
 
@@ -150,7 +150,7 @@ class UserDataSerializer(serializers.ModelSerializer):
             'last_name', 
             'age', 
             'gender', 
-            'country', 
+            #'country', 
             'bio', 
             'profile_pic',
             'following',

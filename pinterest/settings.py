@@ -44,7 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
 
-    # 3rd_party_tools
+        #custom_apps
+    'board',
+    'account.apps.AccountConfig',
+    'user_profile',
+    'pin',
+
+    #3rd_party_tools
     'debug_toolbar',
     'corsheaders',
     'django_extensions',
@@ -55,11 +61,6 @@ INSTALLED_APPS = [
     'social_django',
     'drf_social_oauth2',
 
-    # custom_apps
-    'board',
-    'account.apps.AccountConfig',
-    'user_profile',
-    'pin',
 
 ]
 SITE_ID = 1
