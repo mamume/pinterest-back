@@ -39,7 +39,7 @@ class BoardSerializer(serializers.ModelSerializer):
 class BoardUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
-        fields = ("pins", )
+        fields = ["pins", 'title', 'share']
 
 
 class NoteSerializer(serializers.ModelSerializer):
