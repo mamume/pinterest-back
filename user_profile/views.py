@@ -1,8 +1,9 @@
 from rest_framework import request
+from rest_framework.utils import serializer_helpers
 from rest_framework.viewsets import ModelViewSet
 
 from pin.models import Pin
-from .serializers import PinDeleteSerializer, ProfileSerializer
+from .serializers import PinDeleteSerializer, ProfileSerializer, ProfileUpdateSerializer
 from account.models import UserProfile
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.request import Request
@@ -61,3 +62,10 @@ class FollowingViewSet(ModelViewSet):
 class PinDeleteViewSet(ModelViewSet):
     serializer_class = PinDeleteSerializer
     queryset = Pin.objects.all()
+
+
+class ProfileUpdateViewSet(ModelViewSet):
+    serializer_class = ProfileUpdateSerializer
+
+    def get_queryset(self):
+        return UserProfile.objects.filter(username=self.request.user)
