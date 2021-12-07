@@ -18,12 +18,12 @@ from board.models import Board
 # @permission_classes([])
 def link_board(request):
     if request.method == 'POST':
-        print(request.data.dict().get('pin_id'))
+        # print(request.data.dict().get('pin_id'))
         pin_id = int(request.data.dict().get('pin_id'))
         board_id = int(request.data.dict().get('board_id'))
         temp = request.data.dict()
 
-        print(board_id)
+        # print(board_id)
         board = Board.objects.get(pk=board_id)
         # print(board)
         pin = Pin.objects.get(pk=pin_id)
@@ -36,12 +36,12 @@ def link_board(request):
 # @permission_classes([])
 def pin_create(request):
     if request.method == 'POST':
-        print("blahblahlalhalhlahlalhla")
-        print(request.data)
+        # print("blahblahlalhalhlahlalhla")
+        # print(request.data)
         temp = request.data
         temp = temp.dict()
         board_id = temp.get("board_id")
-        print(temp)
+        # print(temp)
         serializer = PinSerializer(data=request.data, context={
                                    'board_id': board_id})
     if serializer.is_valid():
@@ -55,7 +55,7 @@ def pin_create(request):
 @api_view(["GET"])
 def pin_list(request):
     pins = Pin.objects.all()
-    print(pins)
+    # print(pins)
 
     serialized_pins = PinSerializer(
         instance=pins, many=True, context={"request": request})
@@ -69,11 +69,11 @@ def single_pin(request, pk):
         pin = Pin.objects.get(pk=pk)
     except Exception as e:
         return Response(data={"msg": "this pin does not exist"}, status=status.HTTP_400_BAD_REQUEST)
-    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    # print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     serializer_context = {'request': request}
     serialized_pin = PinSerializer(instance=pin, context=serializer_context)
-    print(serialized_pin)
-    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    # print(serialized_pin)
+    # print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     return Response(data=serialized_pin.data, status=status.HTTP_200_OK)
 
 
@@ -85,11 +85,11 @@ def user_pins(request, user_id):
             "UserProfile").filter(owner__id=user_id)
     except Exception as e:
         return Response(data={"msg": "failed to fetch this users' pins"}, status=status.HTTP_400_BAD_REQUEST)
-    print(pins)
-    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    # print(pins)
+    # print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     serialized_pins = PinSerializer(instance=pins, many=True)
-    print(serialized_pins)
-    print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
+    # print(serialized_pins)
+    # print("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")
     return Response(data=serialized_pins.data, status=status.HTTP_200_OK)
 
 
@@ -135,9 +135,9 @@ def note_create(request, pin_id):
 
     if request.method == 'POST':
         data = request.data
-        print(data)
+        # print(data)
         serializer = NoteSerializer(data=data, context={'pin_id': pin_id})
-        print(serializer)
+        # print(serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -235,9 +235,9 @@ def category_create(request, pin_id):
 
     if request.method == 'POST':
         data = request.data
-        print(data)
+        # print(data)
         serializer = CategorySerializer(data=data, context={'pin_id': pin_id})
-        print(serializer)
+        # print(serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -336,9 +336,9 @@ def section_create(request, pin_id):
 
     if request.method == 'POST':
         data = request.data
-        print(data)
+        # print(data)
         serializer = SectionSerializer(data=data, context={'pin_id': pin_id})
-        print(serializer)
+        # print(serializer)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)

@@ -18,7 +18,7 @@ from account.utils import Util
 @api_view(['POST'])
 @permission_classes([])
 def signup(request):
-    print(request.data)
+    # print(request.data)
     user = UserSerializer(data=request.data)
     if user.is_valid():
         user.save()
@@ -140,7 +140,7 @@ def delete_user(request):
 def resetPasswordRequest(request):
     email = request.data['email']
     if UserProfile.objects.filter(email=email).exists():
-        print('good')
+        # print('good')
         user = UserProfile.objects.get(email=email)
         uid64 = urlsafe_base64_encode(smart_bytes(user.id))
         token = PasswordResetTokenGenerator().make_token(user)
@@ -169,7 +169,7 @@ def resetPasswordCheck(request, uid64, token):
     try:
         id = smart_str(urlsafe_base64_decode(uid64))
         user = UserProfile.objects.get(id=id)
-        print(user)
+        # print(user)
 
         if not PasswordResetTokenGenerator().check_token(user, token):
             return redirect(f"{redirect_url}?token_valid=false")

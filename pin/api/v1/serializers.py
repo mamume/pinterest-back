@@ -64,8 +64,8 @@ class PinSerializer(serializers.ModelSerializer):
         # instance = ExampleModel.objects.create(**validated_data)
         # instance.example_relationship = example_relationship
         # return instance
-        print(
-            "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((")
+        # print(
+        #     "((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((")
         try:
             boards = get_object_or_404(Board, pk=self.context.get("board_id"))
             pin = Pin.objects.create(**validated_data)

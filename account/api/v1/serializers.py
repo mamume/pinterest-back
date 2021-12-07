@@ -123,7 +123,7 @@ class resetPasswordCompleteSerializer(serializers.Serializer):
         token = self.validated_data['token']
         id = smart_str(urlsafe_base64_decode(uid64))
         user = UserProfile.objects.get(id=id)
-        print(user, token)
+        # print(user, token)
 
         if not PasswordResetTokenGenerator().check_token(user, token):
             raise AuthenticationFailed(
