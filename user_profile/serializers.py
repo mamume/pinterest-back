@@ -87,3 +87,10 @@ class PinDeleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pin
         fields = '__all__'
+
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['id', 'profile_pic', 'first_name', 'last_name', 'bio',
+                  'website', 'username', 'email', 'country', 'gender']
