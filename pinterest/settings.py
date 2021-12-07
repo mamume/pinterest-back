@@ -26,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 CORS_ALLOW_ALL_ORIGINS = True
-ALLOWED_HOSTS = ['3.135.88.239', '18.222.139.37']
+ALLOWED_HOSTS = ['3.132.156.164', '3.135.88.239', '18.222.139.37']
 
 
 # Application definition
@@ -44,13 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
 
-        #custom_apps
+    # custom_apps
     'board',
     'account.apps.AccountConfig',
     'user_profile',
     'pin',
 
-    #3rd_party_tools
+    # 3rd_party_tools
     'debug_toolbar',
     'corsheaders',
     'django_extensions',
