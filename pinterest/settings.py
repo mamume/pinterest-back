@@ -44,19 +44,19 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
 
-        #custom_apps
+    # custom_apps
     'board',
     'account.apps.AccountConfig',
     'user_profile',
     'pin',
 
-    #3rd_party_tools
+    # 3rd_party_tools
     'debug_toolbar',
     'corsheaders',
     'django_extensions',
     'django_countries',
 
-    #Oauth2
+    # Oauth2
     'oauth2_provider',
     'social_django',
     'drf_social_oauth2',
@@ -103,7 +103,6 @@ TEMPLATES = [
 ]
 
 
-
 WSGI_APPLICATION = 'pinterest.wsgi.application'
 
 
@@ -113,11 +112,11 @@ WSGI_APPLICATION = 'pinterest.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pinterest',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'PORT': ''
+        'NAME': config("DB_NAME"),
+        'HOST': config("DB_HOST"),
+        'USER': config("DB_USER"),
+        'PASSWORD': config("DB_PASSWORD"),
+        'PORT': config("DB_PORT")
     }
 }
 
@@ -174,19 +173,19 @@ AUTH_USER_MODEL = 'account.UserProfile'
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
-    'DEFAULT_AUTHENTICATION_CLASSES':(
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
         'drf_social_oauth2.authentication.SocialAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-    ),  
+    ),
 
 }
 
 AUTHENTICATION_BACKENDS = (
     # Others auth providers (e.g. Google, OpenId, etc)
-    
+
     # Google OAuth2
     'social_core.backends.google.GoogleOAuth2',
 
@@ -229,5 +228,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'saiednotifier@gmail.com'
 EMAIL_HOST_PASSWORD = 'ahmed7said'
 EMAIL_PORT = 587
-EMAIL_USE_TLS =True
-
+EMAIL_USE_TLS = True
