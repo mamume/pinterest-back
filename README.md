@@ -23,9 +23,12 @@ This project is a back-end clone for the Pinterest website made with Django Rest
   - `source <venv_name>/bin/activate`
 - Install requires libraries
   - `pip install -r requirements.txt`
+- Add a secret key to `.env` file
   
 ## Database Processing
-  - Create database and set its configurations in `settings.py`
+  - Download & install PostgreSQL: 
+    - [Download Link](https://www.postgresql.org/download/)
+  - Create database and set its configurations in `.env` file
   - Create project migrations
     - `python manage.py makemigrations`
   - Apply database migrations
@@ -34,3 +37,10 @@ This project is a back-end clone for the Pinterest website made with Django Rest
 ## Start Project
   - To start the project run:
     - `python manage.py runserver`
+
+## Team Members
+  - [Ahmed Saied](https://github.com/AhmedSaied94)
+  - [Amr Magdy](https://github.com/Amr-Magdy95)
+  - [Andrew Roshdy](https://github.com/andrew-roshdy13)
+  - [Mahmoud Metwally](https://github.com/mamume)
+  - [Momen Awad](https://github.com/momen-awad)
