@@ -22,15 +22,26 @@ def signup(request):
     user = UserSerializer(data=request.data)
     if user.is_valid():
         user.save()
-        obj = AccessToken.objects.get(user__email=request.data['email'])
-        tokens = {
-            'access_token': obj.token,
-            'expires_in': 36000,
-            'token_type': 'Bearer',
-            'scope': obj.scope,
-            'refresh_token': RefreshToken.objects.get(user__email=request.data['email']).token
-        }
+        try:
+            obj = AccessToken.objects.get(user__email=request.data['email'])
+            tokens = {
+                'access_token': obj.token,
+                'expires_in': 36000,
+                'token_type': 'Bearer',
+                'scope': obj.scope,
+                'refresh_token': RefreshToken.objects.get(user__email=request.data['email']).token
+            }
+        except:
+            tokens = {
+                'access_token': "",
+                'expires_in': "",
+                'token_type': '',
+                'scope': "",
+                'refresh_token': ""
+            }
         return Response(data=tokens, status=status.HTTP_201_CREATED)
+          
+            
     else:
         return Response(data=user.errors, status=status.HTTP_400_BAD_REQUEST)
 

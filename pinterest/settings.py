@@ -111,11 +111,11 @@ WSGI_APPLICATION = 'pinterest.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pinterest',
-        'HOST': 'localhost',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'PORT': ''
+        'NAME': config("DB_NAME"),
+        'HOST': config("DB_HOST"),
+        'USER': config("DB_USER"),
+        'PASSWORD': config("DB_PASSWORD"),
+        'PORT': config("DB_PORT")
     }
 }
 
@@ -212,8 +212,8 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 }
 
 # Google configuration
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '784070846451-8g55v603c490t8pj4meumoa7c2a3viuv.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '679751054018-2l8lc8ijibfr7ammo77vfu59epohaiu9.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 
 # Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
