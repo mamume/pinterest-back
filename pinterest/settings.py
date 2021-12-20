@@ -14,6 +14,7 @@ import dj_database_url
 from pathlib import Path
 from decouple import config
 import os
+import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -243,3 +244,5 @@ EMAIL_HOST_USER = 'saiednotifier@gmail.com'
 EMAIL_HOST_PASSWORD = 'ahmed7said'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+django_heroku.settings(locals())
