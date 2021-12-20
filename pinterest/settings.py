@@ -30,7 +30,8 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
 CORS_ALLOW_ALL_ORIGINS = True
-ALLOWED_HOSTS = ['3.132.156.164', '3.135.88.239', '18.222.139.37']
+ALLOWED_HOSTS = ['https://pinterest-django.herokuapp.com/',
+                 '3.132.156.164', '3.135.88.239', '18.222.139.37']
 
 
 # Application definition
