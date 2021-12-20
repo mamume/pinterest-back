@@ -1,1 +1,1 @@
-web: gunicorn pinterest.wsgi --preload -b --log-file -
+web: gunicorn pinterest.wsgi.application --preload -b --log-file -
