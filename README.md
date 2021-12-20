@@ -1,7 +1,7 @@
 # Pinterest Back-End
 A back-end clone for the Pinterest website made with Django Rest Framework. 
   - The front-end project can be found [here](https://github.com/mamume/pinterest-front/). 
-  - The Deployment of the project can be found [here](http://3.132.156.164/)
+  - The Deployment of the project can be found [here](https://pinterest-final.herokuapp.com/)
 
 ## Overview
 This project is a back-end clone for the Pinterest website made with Django Rest Framework. The project contains four apps:
