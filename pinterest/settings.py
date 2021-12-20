@@ -261,7 +261,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'mysite.log',
+            'filename': '/app/mysite.log',
             'formatter': 'verbose'
         },
     },
