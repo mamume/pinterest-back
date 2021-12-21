@@ -20,6 +20,8 @@ gunicorn = "*"
 dj-database-url = "*"
 whitenoise = "*"
 django-heroku = "*"
+django-storages = "*"
+boto3 = "*"
 
 [dev-packages]
 autopep8 = "*"
